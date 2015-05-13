@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8ED13D13-1B39-4CE5-A43E-953D692B3247}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ORM</RootNamespace>
+    <AssemblyName>ORM</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Applications.cs" />
+    <Compile Include="Files.cs" />
+    <Compile Include="Memberships.cs" />
+    <Compile Include="Migrations\201505061519266_correctionGlobal.cs" />
+    <Compile Include="Migrations\201505061519266_correctionGlobal.Designer.cs">
+      <DependentUpon>201505061519266_correctionGlobal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061531058_correctionGlobal2.cs" />
+    <Compile Include="Migrations\201505061531058_correctionGlobal2.Designer.cs">
+      <DependentUpon>201505061531058_correctionGlobal2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061541114_correctionGlobal3.cs" />
+    <Compile Include="Migrations\201505061541114_correctionGlobal3.Designer.cs">
+      <DependentUpon>201505061541114_correctionGlobal3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061541448_correctionGlobal4.cs" />
+    <Compile Include="Migrations\201505061541448_correctionGlobal4.Designer.cs">
+      <DependentUpon>201505061541448_correctionGlobal4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061542541_correctionGlobal5.cs" />
+    <Compile Include="Migrations\201505061542541_correctionGlobal5.Designer.cs">
+      <DependentUpon>201505061542541_correctionGlobal5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061602366_correctionGlobal6.cs" />
+    <Compile Include="Migrations\201505061602366_correctionGlobal6.Designer.cs">
+      <DependentUpon>201505061602366_correctionGlobal6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061608035_correctionGlobal7.cs" />
+    <Compile Include="Migrations\201505061608035_correctionGlobal7.Designer.cs">
+      <DependentUpon>201505061608035_correctionGlobal7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061624328_correctionGlobal8.cs" />
+    <Compile Include="Migrations\201505061624328_correctionGlobal8.Designer.cs">
+      <DependentUpon>201505061624328_correctionGlobal8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061645247_correctionGlobal9.cs" />
+    <Compile Include="Migrations\201505061645247_correctionGlobal9.Designer.cs">
+      <DependentUpon>201505061645247_correctionGlobal9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505061720035_correctionGlobal10.cs" />
+    <Compile Include="Migrations\201505061720035_correctionGlobal10.Designer.cs">
+      <DependentUpon>201505061720035_correctionGlobal10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505080748399_changes.cs" />
+    <Compile Include="Migrations\201505080748399_changes.Designer.cs">
+      <DependentUpon>201505080748399_changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505082143327_ff.cs" />
+    <Compile Include="Migrations\201505082143327_ff.Designer.cs">
+      <DependentUpon>201505082143327_ff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505090947478_changes2.cs" />
+    <Compile Include="Migrations\201505090947478_changes2.Designer.cs">
+      <DependentUpon>201505090947478_changes2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505130842022_changeprivacyondate.cs" />
+    <Compile Include="Migrations\201505130842022_changeprivacyondate.Designer.cs">
+      <DependentUpon>201505130842022_changeprivacyondate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model1.cs" />
+    <Compile Include="Profiles.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roles.cs" />
+    <Compile Include="Users.cs" />
+    <Compile Include="UsersInRoles.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAL.Interfacies\DAL.Interface.csproj">
+      <Project>{06204c03-41a1-4567-8edd-88ae0fc4391b}</Project>
+      <Name>DAL.Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201505061519266_correctionGlobal.resx">
+      <DependentUpon>201505061519266_correctionGlobal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061531058_correctionGlobal2.resx">
+      <DependentUpon>201505061531058_correctionGlobal2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061541114_correctionGlobal3.resx">
+      <DependentUpon>201505061541114_correctionGlobal3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061541448_correctionGlobal4.resx">
+      <DependentUpon>201505061541448_correctionGlobal4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061542541_correctionGlobal5.resx">
+      <DependentUpon>201505061542541_correctionGlobal5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061602366_correctionGlobal6.resx">
+      <DependentUpon>201505061602366_correctionGlobal6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061608035_correctionGlobal7.resx">
+      <DependentUpon>201505061608035_correctionGlobal7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061624328_correctionGlobal8.resx">
+      <DependentUpon>201505061624328_correctionGlobal8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061645247_correctionGlobal9.resx">
+      <DependentUpon>201505061645247_correctionGlobal9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505061720035_correctionGlobal10.resx">
+      <DependentUpon>201505061720035_correctionGlobal10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505080748399_changes.resx">
+      <DependentUpon>201505080748399_changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505082143327_ff.resx">
+      <DependentUpon>201505082143327_ff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505090947478_changes2.resx">
+      <DependentUpon>201505090947478_changes2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505130842022_changeprivacyondate.resx">
+      <DependentUpon>201505130842022_changeprivacyondate.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

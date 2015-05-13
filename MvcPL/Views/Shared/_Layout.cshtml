@@ -1,0 +1,46 @@
+﻿@using System.Diagnostics.Eventing.Reader
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <table cellspacing="10%" width="100%">
+        <tr>
+            <td width="15%">@Html.ActionLink("Главная", "Index", "Home")</td>
+            <td width="15%">@Html.ActionLink("Мои файлы", "Index", "FileWork")</td>
+            <td width="55%"> </td>
+            
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <td width="10%">
+                        @Html.Label("Hello: " + User.Identity.Name + " ")
+                    </td>
+                    <td width="5%">
+                        @Html.ActionLink("Выход", "Logout", "Account")
+                    </td>
+                }
+                else
+                {
+                    <td width="10%">
+                        @Html.Label("Please log in -> ")
+                    </td>
+                    <td width="5%">
+                        @Html.ActionLink("Вход", "Login", "Account")
+                    </td>
+                }
+                    
+        </tr>
+    </table>
+    <hr />
+    @*@Html.ActionLink("Вход", "Login", "Account")*@
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<MvcPL.Models.FileViewModel>
+
+@{
+    ViewBag.Title = "Your file lib";
+}
+
+<center>
+    <h2>Manage your files</h2>
+    <table>
+        <tr>
+            <th>
+                Your files list
+            </th>
+        </tr>
+        <tr>
+        <th>
+            @using (Ajax.BeginForm("Upload", new AjaxOptions() { UpdateTargetId = "entries", InsertionMode = InsertionMode.InsertAfter }))
+            {
+                @Html.Partial("_AddFile")
+            }
+        </th>
+        </tr>
+
+    </table>
+
+    <table id="entries">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+            </tr>
+        }
+    </table>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>*@
+
+
+</center>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+    $('#submit').on('click', function (e) {
+
+        e.preventDefault();
+        var files = document.getElementById('uploadFile').files;
+        if (files.length > 0) {
+            if (window.FormData !== undefined)
+            {
+                var data = new FormData();
+                for (var x = 0; x < files.length; x++) {
+                    data.append("file" + x, files[x]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Upload", "FileWork")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        result = $("#entries");
+                        result
+                    },
+                    error: function (xhr, status, p3) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+            else
+            {
+                alert("Браузер не поддерживает загрузку файлов HTML5!");
+            }
+        }
+    });
+    </script>
+}

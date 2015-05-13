@@ -1,0 +1,41 @@
+﻿@using System
+@using Microsoft.Ajax.Utilities
+@model IEnumerable<MvcPL.Models.UserViewModel>
+@{
+    ViewBag.Title = "The best file storage";
+}
+
+<center>
+    <h2>The best file storage</h2>
+    <table>
+        <tr>
+
+            <th>
+                @*@Html.DisplayNameFor(model => model.UserName)*@
+                Current users list
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+@*
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+    </td>
+*@
+            </tr>
+        }
+
+    </table>
+</center>
