@@ -38,9 +38,13 @@ namespace MvcPL.Controllers
                 }));
         }
 
+        public ActionResult Upload()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public ActionResult Upload(FileViewModel fileView)
+        public JsonResult Upload(FileViewModel fileView)
         {
             foreach (string file in Request.Files)
             {
@@ -58,13 +62,9 @@ namespace MvcPL.Controllers
                         OwnerId = _uservice.GetAllUserEntities().First(user=>user.UserName==User.Identity.Name).Id
                     };
                     _fservice.CreateFile(bllFile);
-                    if (Request.IsAjaxRequest())
-                    {
-                        return PartialView("_EntryControl", bllFile);
-                    }
                 }
             }
-            return RedirectToAction("Index");
+            return Json("File added succesfully.");
         }
 
     }
