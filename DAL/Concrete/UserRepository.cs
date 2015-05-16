@@ -54,7 +54,11 @@ namespace DAL.Concrete
 
         public void Delete(DalUser e)
         {
-            throw new NotImplementedException();
+            Guid id = Guid.Parse(e.Id);
+            var member = context.Set<Memberships>().Single(m => m.UserId == id);
+            context.Set<Memberships>().Remove(member);
+            var user = context.Set<Users>().Single(o => o.UserId == id);
+            context.Set<Users>().Remove(user);
         }
 
         public void Update(DalUser entity)

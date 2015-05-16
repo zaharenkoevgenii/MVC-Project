@@ -37,7 +37,8 @@ namespace MvcPL.Controllers
                 {
                     Id = file.Id,
                     Name = file.Name,
-                    Created = file.Created
+                    Created = file.Created,
+                    OwnerId = file.OwnerId
                 }));
         }
 
@@ -84,5 +85,19 @@ namespace MvcPL.Controllers
             return Json("File added succesfully.");
         }
 
+        public ActionResult Delete(FileViewModel fileView)
+        {
+            if (System.IO.File.Exists(Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileView.Name)))
+                System.IO.File.Delete(Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileView.Name));
+            var file = new FileEntity()
+            {
+                Id = fileView.Id,
+                Created = fileView.Created,
+                Name = fileView.Name,
+                OwnerId = fileView.OwnerId
+            };
+            _fservice.DeleteFile(file);
+            return RedirectToAction("Index");
+        }
     }
 }

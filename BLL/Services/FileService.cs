@@ -30,5 +30,12 @@ namespace BLL.Services
             fileRepository.Create(file.ToDalFile());
             uow.Commit();
         }
+
+
+        public void DeleteFile(FileEntity file)
+        {
+            fileRepository.Delete(file.ToDalFile());
+            uow.Commit();
+        }
     }
 }

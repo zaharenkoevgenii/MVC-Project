@@ -67,7 +67,9 @@ namespace DAL.Concrete
 
         public void Delete(DalFile e)
         {
-            throw new NotImplementedException();
+            var id = Guid.Parse(e.Id);
+            var file = context.Set<Files>().Single(o=>o.FileId==id);
+            context.Set<Files>().Remove(file);
         }
 
         public void Update(DalFile entity)

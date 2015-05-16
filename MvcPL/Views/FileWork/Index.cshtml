@@ -21,7 +21,12 @@
     </table>
 
     <table id="entries">
-        <tr><td><center><b>Название файла</b></center></td><td><center><b>Дата загрузки</b></center></td></tr>
+        <tr>
+            <td><center><b>Название файла</b></center></td>
+            <td><center><b>Дата загрузки</b></center></td>
+            <td><center><b>Удалить</b></center></td>
+            <td><center><b>Скачать</b></center></td>
+        </tr>
         @foreach (var item in Model)
         {
             <tr>
@@ -30,6 +35,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.ActionLink("Удалить","Delete",item)
                 </td>
             </tr>
         }

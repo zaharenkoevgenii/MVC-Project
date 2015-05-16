@@ -14,10 +14,12 @@ namespace MvcPL.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserService _service;
-        public AccountController(IUserService service)
+        private readonly IUserService _uservice;
+        private readonly IFileService _fservice;
+        public AccountController(IUserService uservice,IFileService fservice)
         {
-            this._service = service;
+            this._uservice = uservice;
+            this._fservice = fservice;
         }
 
         public ActionResult Login(string returnUrl)
@@ -72,6 +74,34 @@ namespace MvcPL.Controllers
             if (blluser.UserName=="admin")
                 Roles.AddUserToRole(blluser.UserName,"admin");
             FormsAuthentication.SetAuthCookie(user.UserName, user.LogInNow);
+            return RedirectToAction("Index","Home");
+        }
+
+        public ActionResult Delete(UserViewModel userView)
+        {
+            var files=_fservice.GetAllFileEntities().Where(f => f.OwnerId == userView.UserId);
+            foreach (var file in files)
+            {
+                var f = new FileViewModel()
+                {
+                    Created = file.Created,
+                    Id = file.Id,
+                    Name = file.Name,
+                    OwnerId = file.OwnerId
+                };
+                RedirectToAction("Delete", "FileWork", f);
+                System.IO.File.Delete(Server.MapPath("~/Files/" + userView.UserName + "/" + f.Name));
+            }
+            System.IO.Directory.Delete(Server.MapPath("~/Files/" + userView.UserName));
+
+            if (userView.UserName=="admin")
+                FormsAuthentication.SignOut();
+            var user = new UserEntity()
+            {
+                Id = userView.UserId,
+                UserName = userView.UserName
+            };
+            _uservice.DeleteUser(user);
             return RedirectToAction("Index","Home");
         }
     }

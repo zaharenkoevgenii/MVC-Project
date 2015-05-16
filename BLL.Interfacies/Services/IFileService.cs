@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BLL.Interface.Entities;
 
 namespace BLL.Interface.Services
@@ -7,5 +8,6 @@ namespace BLL.Interface.Services
     {
         IEnumerable<FileEntity> GetAllFileEntities();
         void CreateFile(FileEntity file);
+        void DeleteFile(FileEntity file);
     }
 }
