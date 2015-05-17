@@ -13,6 +13,7 @@ using System.Web.UI.WebControls.WebParts;
 using BLL.Interface.Entities;
 using BLL.Interface.Services;
 using MvcPL.Models;
+using Ninject.Activation;
 
 namespace MvcPL.Controllers
 {
@@ -44,18 +45,10 @@ namespace MvcPL.Controllers
 
         public ActionResult Upload()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public JsonResult Upload(FileViewModel fileView)
-        {
-            foreach (string file in Request.Files)
+            HttpPostedFileBase file = Request.Files["fileInput"];
+            if (file != null && file.ContentLength > 0 && !string.IsNullOrEmpty(file.FileName))
             {
-                var upload = Request.Files[file];
-                if (upload != null)
-                {
-                    string fileName = System.IO.Path.GetFileName(upload.FileName);
+                string fileName = file.FileName;
                     int numb = 0;
                     while ( _fservice.GetAllFileEntities()
                         .Where(f1 => f1.OwnerId == _uservice.GetAllUserEntities().First(user => user.UserName == User.Identity.Name).Id)
@@ -71,7 +64,7 @@ namespace MvcPL.Controllers
                         }
                     }
                     System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/" + User.Identity.Name));
-                    upload.SaveAs(Server.MapPath("~/Files/"+ User.Identity.Name+"/"+ fileName));
+                    file.SaveAs(Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileName));
                     var bllFile = new FileEntity()
                     {
                         Id = Guid.NewGuid().ToString(),
@@ -80,10 +73,11 @@ namespace MvcPL.Controllers
                         OwnerId = _uservice.GetAllUserEntities().First(user=>user.UserName==User.Identity.Name).Id
                     };
                     _fservice.CreateFile(bllFile);
+                    return PartialView("_EntryControl", bllFile);
                 }
-            }
-            return Json("File added succesfully.");
+            return null;
         }
+
 
         public ActionResult Delete(FileViewModel fileView)
         {
