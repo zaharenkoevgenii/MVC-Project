@@ -15,11 +15,11 @@
         <tr>
             <th>
                 <div>
-                   @using (Ajax.BeginForm("Upload", new AjaxOptions { UpdateTargetId = "searchresults", InsertionMode = InsertionMode.InsertAfter }))
-                   {
-                       <input id="fileInput" name="fileInput" type="file" />
-                       <input type="button" value="Upload file" id="btnFileUpload" />
-                   }
+                    @using (Ajax.BeginForm("Upload", new AjaxOptions { UpdateTargetId = "searchresults", InsertionMode = InsertionMode.InsertAfter }))
+                    {
+                        <input id="fileInput" name="fileInput" type="file" />
+                        <input type="button" value="Upload file" id="btnFileUpload" />
+                    }
                 </div>
             </th>
         </tr>
@@ -43,12 +43,16 @@
                     @Html.DisplayFor(modelItem => item.Created)
                 </td>
                 <td>
-                    @Html.ActionLink("Удалить","Delete",item)
+                    @Html.ActionLink("Удалить","Delete",item.Id)
+                </td>
+                <td>
+                    @Html.ActionLink("Загрузить", "Download", item)
                 </td>
             </tr>
         }
     </table>
 </center>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/scripts/jquery-1.10.2.js")
@@ -57,9 +61,15 @@
         $("#btnFileUpload").click(function() {
             var formData = new FormData();
             var file = document.getElementById("fileInput").files[0];
+            var xhr = new XMLHttpRequest();
+            xhr.open("post", "http://localhost:9026/FileWork/Upload", true);
             formData.append("fileInput", file);
-            $('#entries').load("http://localhost:9026/FileWork/Upload", null, function () { alert("Файл успешно загружен"); });
+            xhr.send(formData);
+            xhr.onreadystatechange=function() {
+                if (xhr.readyState == 4) {
+                    $('#entries').append(xhr.responseText);
+                }
+            }
         });
     </script>
-
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using BLL.Interface.Entities;
@@ -31,10 +32,9 @@ namespace BLL.Services
             uow.Commit();
         }
 
-
-        public void DeleteUser(UserEntity user)
+        public void DeleteUser(Guid id)
         {
-            userRepository.Delete(user.ToDalUser());
+            userRepository.Delete(id);
             uow.Commit();
         }
     }

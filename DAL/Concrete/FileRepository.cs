@@ -22,10 +22,10 @@ namespace DAL.Concrete
         {
             return context.Set<Files>().Select(file => new DalFile()
             {
-                Id = file.FileId.ToString(),
+                Id = file.FileId,
                 Name = file.FileName,
                 Created = file.CreationTime,
-                OwnerId = file.UserId.ToString()
+                OwnerId = file.UserId
             });
         }
 
@@ -34,10 +34,10 @@ namespace DAL.Concrete
             var ormFile = context.Set<Files>().First(file => file.FileId == key);
             return new DalFile()
             {
-                Id = ormFile.FileId.ToString(),
+                Id = ormFile.FileId,
                 Name = ormFile.FileName,
                 Created = ormFile.CreationTime,
-                OwnerId = ormFile.UserId.ToString()
+                OwnerId = ormFile.UserId
             };
         }
 
@@ -45,10 +45,10 @@ namespace DAL.Concrete
         {
             var ormFile = context.Set<Files>().Select(file => new DalFile()
             {
-                Id = file.FileId.ToString(),
+                Id = file.FileId,
                 Name = file.FileName,
                 Created = file.CreationTime,
-                OwnerId = file.UserId.ToString()
+                OwnerId = file.UserId
             }).FirstOrDefault(f);
             return ormFile;
         }
@@ -57,18 +57,17 @@ namespace DAL.Concrete
         {
             var file = new Files()
             {
-                FileId = Guid.Parse(e.Id),
+                FileId = e.Id,
                 FileName = e.Name,
                 CreationTime = e.Created,
-                UserId = Guid.Parse(e.OwnerId)
+                UserId = e.OwnerId
             };
             context.Set<Files>().Add(file);
         }
 
-        public void Delete(DalFile e)
+        public void Delete(Guid id)
         {
-            var id = Guid.Parse(e.Id);
-            var file = context.Set<Files>().Single(o=>o.FileId==id);
+            var file = context.Set<Files>().Single(o => o.FileId == id);
             context.Set<Files>().Remove(file);
         }
 

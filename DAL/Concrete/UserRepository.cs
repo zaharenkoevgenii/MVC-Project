@@ -22,7 +22,7 @@ namespace DAL.Concrete
         {
             return context.Set<Users>().Select(user => new DalUser()
                         {
-                            Id = user.UserId.ToString(),
+                            Id = user.UserId,
                             Name = user.UserName,
                         });
         }
@@ -32,7 +32,7 @@ namespace DAL.Concrete
             var ormuser = context.Set<Users>().FirstOrDefault(user => user.UserId == key);
             return new DalUser()
             {
-                Id = ormuser.UserId.ToString(),
+                Id = ormuser.UserId,
                 Name = ormuser.UserName
             };
         }
@@ -46,15 +46,14 @@ namespace DAL.Concrete
         {
             var user = new Users()
             {
-                UserId = Guid.Parse(e.Id),
+                UserId = e.Id,
                 UserName = e.Name,
             };
             context.Set<Users>().Add(user);
         }
 
-        public void Delete(DalUser e)
+        public void Delete(Guid id)
         {
-            Guid id = Guid.Parse(e.Id);
             var member = context.Set<Memberships>().Single(m => m.UserId == id);
             context.Set<Memberships>().Remove(member);
             var user = context.Set<Users>().Single(o => o.UserId == id);

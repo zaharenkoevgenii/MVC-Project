@@ -10,8 +10,8 @@ namespace DAL.Interface.Repository
         IEnumerable<TEntity> GetAll();
         TEntity GetById(Guid key);
         TEntity GetByPredicate(Expression<Func<TEntity, bool>> f);
-        void Create(TEntity e);
-        void Delete(TEntity e);
+        void Create(TEntity entity);
+        void Delete(Guid id);
         void Update(TEntity entity);
     }
 }

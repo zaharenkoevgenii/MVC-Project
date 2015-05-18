@@ -32,17 +32,18 @@ namespace MvcPL.Controllers
         {
             var id = _uservice.GetAllUserEntities().First(user => user.UserName == User.Identity.Name).Id;
             return View(_fservice.GetAllFileEntities()
-                .OrderBy(f=>f.Created)
                 .Where(file=>file.OwnerId==id)
+                .OrderBy(f=>f.Created)
                 .Select(file => new FileViewModel()
                 {
-                    Id = file.Id,
+                    Id = file.Id.ToString(),
                     Name = file.Name,
                     Created = file.Created,
-                    OwnerId = file.OwnerId
+                    OwnerId = file.OwnerId.ToString()
                 }));
         }
 
+        [HttpPost]
         public ActionResult Upload()
         {
             HttpPostedFileBase file = Request.Files["fileInput"];
@@ -67,7 +68,7 @@ namespace MvcPL.Controllers
                     file.SaveAs(Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileName));
                     var bllFile = new FileEntity()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = Guid.NewGuid(),
                         Name = fileName,
                         Created = DateTime.Now,
                         OwnerId = _uservice.GetAllUserEntities().First(user=>user.UserName==User.Identity.Name).Id
@@ -78,19 +79,17 @@ namespace MvcPL.Controllers
             return null;
         }
 
-
-        public ActionResult Delete(FileViewModel fileView)
+        public ActionResult Download(FileViewModel fileView)
         {
-            if (System.IO.File.Exists(Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileView.Name)))
-                System.IO.File.Delete(Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileView.Name));
-            var file = new FileEntity()
-            {
-                Id = fileView.Id,
-                Created = fileView.Created,
-                Name = fileView.Name,
-                OwnerId = fileView.OwnerId
-            };
-            _fservice.DeleteFile(file);
+            var path = Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileView.Name);
+            return File(path, "*/*", fileView.Name);
+        }
+
+        public ActionResult Delete(string id)
+        {
+            var name = _fservice.GetAllFileEntities().First(f => f.Id == Guid.Parse(id)).Name;
+            System.IO.File.Delete(Server.MapPath("~/Files/" + User.Identity.Name + "/" + name));
+            _fservice.DeleteFile(Guid.Parse(id));
             return RedirectToAction("Index");
         }
     }

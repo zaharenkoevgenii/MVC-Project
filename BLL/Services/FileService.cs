@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using BLL.Interface.Entities;
@@ -31,10 +32,9 @@ namespace BLL.Services
             uow.Commit();
         }
 
-
-        public void DeleteFile(FileEntity file)
+        public void DeleteFile(Guid id)
         {
-            fileRepository.Delete(file.ToDalFile());
+            fileRepository.Delete(id);
             uow.Commit();
         }
     }
