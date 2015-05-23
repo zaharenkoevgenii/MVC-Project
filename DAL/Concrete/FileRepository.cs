@@ -29,6 +29,20 @@ namespace DAL.Concrete
             });
         }
 
+        public IEnumerable<DalFile> GetN(int n)
+        {
+            return context.Set<Files>()
+                .OrderByDescending(file=>file.CreationTime)
+                .Take(5)
+                .Select(file => new DalFile()
+            {
+                Id = file.FileId,
+                Name = file.FileName,
+                Created = file.CreationTime,
+                OwnerId = file.UserId
+            });
+        }
+
         public DalFile GetById(Guid key)
         {
             var ormFile = context.Set<Files>().First(file => file.FileId == key);

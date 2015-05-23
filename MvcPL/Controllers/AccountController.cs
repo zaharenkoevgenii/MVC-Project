@@ -79,6 +79,7 @@ namespace MvcPL.Controllers
                 RedirectToAction("Delete", "FileWork", file.Id);
                 System.IO.File.Delete(Server.MapPath("~/Files/" + userView.UserName + "/" + file.Name));
             }
+            if (Directory.Exists(Server.MapPath("~/Files/" + userView.UserName)))
             Directory.Delete(Server.MapPath("~/Files/" + userView.UserName));
             if (userView.UserName==User.Identity.Name)
                 FormsAuthentication.SignOut();

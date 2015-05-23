@@ -15,7 +15,8 @@
         <tr>
             <th>
                 <div>
-                    @using (Ajax.BeginForm("Upload", new AjaxOptions { UpdateTargetId = "searchresults", InsertionMode = InsertionMode.InsertAfter }))
+                    @using (Ajax.BeginForm("Upload",
+                        new AjaxOptions { UpdateTargetId = "searchresults", InsertionMode = InsertionMode.InsertAfter }))
                     {
                         <input id="fileInput" name="fileInput" type="file" />
                         <input type="button" value="Upload file" id="btnFileUpload" />

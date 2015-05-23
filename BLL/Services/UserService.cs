@@ -26,6 +26,11 @@ namespace BLL.Services
                 return userRepository.GetAll().Select(user => user.ToBllUser()); 
         }
 
+        public IEnumerable<UserEntity> GetN(int n)
+        {
+            return userRepository.GetN(n).Select(user => user.ToBllUser());
+        }
+
         public void CreateUser(UserEntity user)
         {
             userRepository.Create(user.ToDalUser());

@@ -12,6 +12,7 @@ using System.Web.Security;
 using System.Web.UI.WebControls.WebParts;
 using BLL.Interface.Entities;
 using BLL.Interface.Services;
+using Microsoft.Ajax.Utilities;
 using MvcPL.Models;
 using Ninject.Activation;
 
@@ -31,16 +32,17 @@ namespace MvcPL.Controllers
         public ActionResult Index()
         {
             var id = _uservice.GetAllUserEntities().First(user => user.UserName == User.Identity.Name).Id;
-            return View(_fservice.GetAllFileEntities()
-                .Where(file=>file.OwnerId==id)
-                .OrderBy(f=>f.Created)
+            var data = _fservice.GetN(10)
+                .Where(file => file.OwnerId == id)
+                .OrderBy(f => f.Created)
                 .Select(file => new FileViewModel()
                 {
                     Id = file.Id.ToString(),
                     Name = file.Name,
                     Created = file.Created,
                     OwnerId = file.OwnerId.ToString()
-                }));
+                });
+            return View(data);
         }
 
         [HttpPost]

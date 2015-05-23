@@ -27,6 +27,18 @@ namespace DAL.Concrete
                         });
         }
 
+        public IEnumerable<DalUser> GetN(int n)
+        {
+            return context.Set<Users>()
+                .OrderByDescending(user => user.Memberships.LastLoginDate)
+                .Take(5)
+                .Select(user => new DalUser()
+                {
+                    Id = user.UserId,
+                    Name = user.UserName
+                });
+        }
+
         public DalUser GetById(Guid key)
         {
             var ormuser = context.Set<Users>().FirstOrDefault(user => user.UserId == key);

@@ -143,6 +143,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\FileWorkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -250,7 +251,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\FileWork\Index.cshtml" />
     <Content Include="Views\Shared\_EntryControl.cshtml" />
-    <Content Include="Views\FileWork\Upload.cshtml" />
+    <Content Include="Views\Administration\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />

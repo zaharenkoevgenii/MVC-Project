@@ -19,7 +19,7 @@ namespace MvcPL.Controllers
 
         public ActionResult Index()
         {
-            return View(_service.GetAllUserEntities()
+            return View(_service.GetN(5)
                 .Select(user => new UserViewModel()
                 {
                     UserName = user.UserName,

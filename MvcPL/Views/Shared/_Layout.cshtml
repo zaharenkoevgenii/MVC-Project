@@ -13,12 +13,18 @@
         <tr>
             <td width="15%">@Html.ActionLink("Главная", "Index", "Home")</td>
             <td width="15%">@Html.ActionLink("Мои файлы", "Index", "FileWork")</td>
-            <td width="55%"> </td>
+            <td width="15%">
+            @if (User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Управление", "Index", "Administration")
+                }
+            </td>
+            <td width="35%"> </td>
             
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <td width="10%">
-                        @Html.Label("Hello: " + User.Identity.Name + " ")
+                    <td width="15%">
+                        @Html.Label("Добро пожаловать: " + User.Identity.Name + " ")
                     </td>
                     <td width="5%">
                         @Html.ActionLink("Выход", "Logout", "Account")
@@ -27,7 +33,7 @@
                 else
                 {
                     <td width="10%">
-                        @Html.Label("Please log in -> ")
+                        @Html.Label("Авторизируйтесь-> ")
                     </td>
                     <td width="5%">
                         @Html.ActionLink("Вход", "Login", "Account")

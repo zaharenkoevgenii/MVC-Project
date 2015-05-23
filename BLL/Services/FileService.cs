@@ -26,6 +26,11 @@ namespace BLL.Services
                 return fileRepository.GetAll().Select(user => user.ToBllFile());
         }
 
+        public IEnumerable<FileEntity> GetN(int n)
+        {
+            return fileRepository.GetN(n).Select(file => file.ToBllFile());
+        }
+
         public void CreateFile(FileEntity file)
         {
             fileRepository.Create(file.ToDalFile());
