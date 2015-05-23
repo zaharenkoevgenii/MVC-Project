@@ -1,0 +1,18 @@
+﻿@model IEnumerable<MvcPL.Models.UserViewModel>
+
+<table id="entries">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.ActionLink("Файлы", "FileManage", "Administration")
+            </td>
+            <td>
+                @Html.ActionLink("Удалить пользователя", "Delete", "Administration")
+            </td>
+        </tr>
+    }
+</table>

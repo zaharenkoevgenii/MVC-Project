@@ -150,11 +150,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructura\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\ExtendedFileViewModel.cs" />
     <Compile Include="Models\FileViewModel.cs" />
     <Compile Include="Models\LogInViewModel.cs" />
     <Compile Include="Models\RegistrationViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\HtmlResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\RepAndUowDemo.mdf" />
@@ -250,8 +252,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\FileWork\Index.cshtml" />
-    <Content Include="Views\Shared\_EntryControl.cshtml" />
+    <Content Include="Views\Shared\_FilePartial.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
+    <Content Include="Views\Shared\_UserPartial.cshtml" />
+    <Content Include="Views\Administration\ManageFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />

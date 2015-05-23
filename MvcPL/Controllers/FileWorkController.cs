@@ -76,7 +76,7 @@ namespace MvcPL.Controllers
                         OwnerId = _uservice.GetAllUserEntities().First(user=>user.UserName==User.Identity.Name).Id
                     };
                     _fservice.CreateFile(bllFile);
-                    return PartialView("_EntryControl", bllFile);
+                    return PartialView("_FilePartial", bllFile);
                 }
             return null;
         }

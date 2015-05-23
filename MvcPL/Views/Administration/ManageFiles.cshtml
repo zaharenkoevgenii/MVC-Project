@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MvcPL.Models.ExtendedFileViewModel>
+
+@{
+    ViewBag.Title = "Manage files";
+}
+
+<h2 align="center">Управление</h2>
+<h3 align="center">@Html.ActionLink("Перейти к пользователям", "Index")</h3>
+
+<table>
+    <tr>
+        <td width="20%">
+            <table>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.OwnerName, "UserFiles", "Administration", item.OwnerId, null)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Удалить файл", "DeleteF", "Administration", item.Id, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </td>
+        <td width="40%"></td>
+        <td width="20%">
+            @using (Ajax.BeginForm("SearchFEntry",
+                        new AjaxOptions { UpdateTargetId = "searchresults", InsertionMode = InsertionMode.Replace }))
+            {
+                <input id="tagInput" name="tagInput" type="text" />
+                <input type="button" value="Поиск" id="btnSearch" />
+            }
+            <table id="entries"></table>
+        </td>
+    </tr>
+</table>
