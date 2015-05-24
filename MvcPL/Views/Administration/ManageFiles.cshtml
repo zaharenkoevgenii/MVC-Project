@@ -1,5 +1,4 @@
-﻿@using MvcPL.Models
-@model IEnumerable<MvcPL.Models.ExtendedFileViewModel>
+﻿@model IEnumerable<MvcPL.Models.ExtendedFileViewModel>
 
 @{
     ViewBag.Title = "Manage files";
@@ -27,19 +26,13 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.ActionLink(item.OwnerName, "ManageFiles", "Administration", new UserViewModel(){UserId = item.OwnerId}, null)
+                            @Html.ActionLink(item.OwnerName, "ManageFiles", new { id = item.OwnerId })
                         </td>
                         <td>
                             @Html.ActionLink("Удалить файл", "Delete", "FileWork", new { id = item.Id }, null)
                         </td>
                         <td>
-                            @Html.ActionLink("Загрузить файл", "Download", "FileWork", new FileViewModel()
-                            {
-                                OwnerId=item.OwnerId,
-                                Id=item.Id,
-                                Created = item.Created,
-                                Name = item.Name
-                            }, null)
+                            @Html.ActionLink("Загрузить файл", "Download", "FileWork", new { id = item.Id }, null)
                         </td>
                     </tr>
                 }

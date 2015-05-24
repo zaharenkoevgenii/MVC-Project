@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Diagnostics;
 using DAL.Interface.Repository;
 
 namespace DAL.Concrete
@@ -12,7 +11,6 @@ namespace DAL.Concrete
         public UnitOfWork(DbContext context)
         {
             Context = context;
-            //Debug.WriteLine("unit of work create!");
         }
 
         public void Commit()
@@ -26,7 +24,6 @@ namespace DAL.Concrete
         public void Dispose()
         {
             Dispose(true);
-            //Debug.WriteLine("Context dispose!");
             GC.SuppressFinalize(this);
         }
 

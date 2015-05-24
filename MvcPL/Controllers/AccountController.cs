@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Web;
 using System.Web.Mvc;
-using BLL.Interface.Entities;
 using BLL.Interface.Services;
 using MvcPL.Models;
 using System.Web.Security;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Core.Objects.DataClasses;
 
 namespace MvcPL.Controllers
 {
@@ -17,12 +12,13 @@ namespace MvcPL.Controllers
     {
         private readonly IUserService _uservice;
         private readonly IFileService _fservice;
+
+
         public AccountController(IUserService uservice,IFileService fservice)
         {
-            this._uservice = uservice;
-            this._fservice = fservice;
+            _uservice = uservice;
+            _fservice = fservice;
         }
-
         [HttpGet]
         public ActionResult Login()
         {
@@ -39,10 +35,7 @@ namespace MvcPL.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("wrong user info", "Неправильный пароль или логин");
-                }
+                ModelState.AddModelError("wrong user info", "Неправильный пароль или логин");
             }
             return View(model);
         }
@@ -70,19 +63,20 @@ namespace MvcPL.Controllers
         }
         
         [HttpGet]
-        public ActionResult Delete(UserViewModel userView)
+        public ActionResult Delete(string id)
         {
-            var files=_fservice.GetAllFileEntities().Where(f => f.OwnerId == Guid.Parse(userView.UserId));
+            var files=_fservice.GetAllFileEntities().Where(f => f.OwnerId == Guid.Parse(id));
+            var username = _uservice.GetAllUserEntities().First(u => u.Id == Guid.Parse(id)).UserName;
             foreach (var file in files)
             {
                 RedirectToAction("Delete", "FileWork", file.Id);
-                System.IO.File.Delete(Server.MapPath("~/Files/" + userView.UserName + "/" + file.Name));
+                System.IO.File.Delete(Server.MapPath("~/Files/" + username + "/" + file.Name));
             }
-            if (Directory.Exists(Server.MapPath("~/Files/" + userView.UserName)))
-            Directory.Delete(Server.MapPath("~/Files/" + userView.UserName));
-            if (userView.UserName==User.Identity.Name)
+            if (Directory.Exists(Server.MapPath("~/Files/" + username)))
+                Directory.Delete(Server.MapPath("~/Files/" + username));
+            if (username == User.Identity.Name)
                 FormsAuthentication.SignOut();
-            _uservice.DeleteUser(Guid.Parse(userView.UserId));
+            _uservice.DeleteUser(Guid.Parse(id));
             return RedirectToAction("Index","Administration");
         }
     }

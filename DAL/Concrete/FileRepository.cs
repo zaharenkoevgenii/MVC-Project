@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using DAL.Interface.DTO;
 using DAL.Interface.Repository;
@@ -11,16 +10,16 @@ namespace DAL.Concrete
 {
     public class FileRepository : IRepository<DalFile>
     {
-        private readonly DbContext context;
+        private readonly DbContext _context;
 
         public FileRepository(DbContext uow)
         {
-            this.context = uow;
+            _context = uow;
         }
 
         public IEnumerable<DalFile> GetAll()
         {
-            return context.Set<Files>().Select(file => new DalFile()
+            return _context.Set<Files>().Select(file => new DalFile
             {
                 Id = file.FileId,
                 Name = file.FileName,
@@ -31,10 +30,10 @@ namespace DAL.Concrete
 
         public IEnumerable<DalFile> GetN(int n)
         {
-            return context.Set<Files>()
+            return _context.Set<Files>()
                 .OrderByDescending(file=>file.CreationTime)
                 .Take(5)
-                .Select(file => new DalFile()
+                .Select(file => new DalFile
             {
                 Id = file.FileId,
                 Name = file.FileName,
@@ -45,8 +44,8 @@ namespace DAL.Concrete
 
         public DalFile GetById(Guid key)
         {
-            var ormFile = context.Set<Files>().First(file => file.FileId == key);
-            return new DalFile()
+            var ormFile = _context.Set<Files>().First(file => file.FileId == key);
+            return new DalFile
             {
                 Id = ormFile.FileId,
                 Name = ormFile.FileName,
@@ -57,7 +56,7 @@ namespace DAL.Concrete
 
         public DalFile GetByPredicate(System.Linq.Expressions.Expression<Func<DalFile, bool>> f)
         {
-            var ormFile = context.Set<Files>().Select(file => new DalFile()
+            var ormFile = _context.Set<Files>().Select(file => new DalFile
             {
                 Id = file.FileId,
                 Name = file.FileName,
@@ -69,25 +68,20 @@ namespace DAL.Concrete
 
         public void Create(DalFile e)
         {
-            var file = new Files()
+            var file = new Files
             {
                 FileId = e.Id,
                 FileName = e.Name,
                 CreationTime = e.Created,
                 UserId = e.OwnerId
             };
-            context.Set<Files>().Add(file);
+            _context.Set<Files>().Add(file);
         }
 
         public void Delete(Guid id)
         {
-            var file = context.Set<Files>().Single(o => o.FileId == id);
-            context.Set<Files>().Remove(file);
-        }
-
-        public void Update(DalFile entity)
-        {
-            throw new NotImplementedException();
+            var file = _context.Set<Files>().Single(o => o.FileId == id);
+            _context.Set<Files>().Remove(file);
         }
     }
 }

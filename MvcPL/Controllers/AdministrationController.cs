@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Providers.Entities;
 using BLL.Interface.Services;
 using MvcPL.Models;
 using MvcPL.Utils;
@@ -16,8 +12,8 @@ namespace MvcPL.Controllers
         private readonly IUserService _uservice;
         public AdministrationController(IFileService fservice, IUserService uservice)
         {
-            this._fservice = fservice;
-            this._uservice = uservice;
+            _fservice = fservice;
+            _uservice = uservice;
         }
 
         public ActionResult Index()
@@ -25,7 +21,7 @@ namespace MvcPL.Controllers
             return View(_uservice
                 .GetAllUserEntities()
                 .OrderBy(user => user.UserName)
-                .Select(user => new UserViewModel()
+                .Select(user => new UserViewModel
                 {
                     UserName = user.UserName,
                     UserId = user.Id.ToString()
@@ -37,8 +33,8 @@ namespace MvcPL.Controllers
             string tag = Request.Form.Get("tagInput");
             var entry=_uservice
                 .GetAllUserEntities()
-                .Select(user => new UserViewModel()
-                    {
+                .Select(user => new UserViewModel
+                {
                       UserName = user.UserName,
                       UserId = user.Id.ToString()
                     });
@@ -58,7 +54,7 @@ namespace MvcPL.Controllers
             string tag = Request.Form.Get("tagInput");
             var entry = _fservice
                 .GetAllFileEntities()
-                .Select(file => new ExtendedFileViewModel()
+                .Select(file => new ExtendedFileViewModel
                 {
                     Name = file.Name,
                     Id = file.Id.ToString(),
@@ -77,23 +73,20 @@ namespace MvcPL.Controllers
             return PartialView("_FilePartial", entry);
         }
 
-        public ActionResult ManageFiles(UserViewModel uId)
+        public ActionResult ManageFiles(string id)
         {
             var data = _fservice
                 .GetAllFileEntities()
                 .OrderBy(file => file.Name)
-                .Select(file => new ExtendedFileViewModel()
-                    {
-                        Name = file.Name,
+                .Select(file => new ExtendedFileViewModel
+                {
+                    Name = file.Name,
                     Id = file.Id.ToString(),
                     OwnerId = file.OwnerId.ToString(),
                     OwnerName = _uservice.GetAllUserEntities().First(user => user.Id == file.OwnerId).UserName,
                     Created = file.Created
                 });
-            if (uId.UserId != null)
-            {
-                data = data.Where(file => file.OwnerId == uId.UserId);
-            }
+            if (id != null) data = data.Where(file => file.OwnerId == id);
             return View(data);
         }
 

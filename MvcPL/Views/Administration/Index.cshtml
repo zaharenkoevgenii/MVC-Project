@@ -25,10 +25,10 @@
                             @Html.DisplayFor(modelItem => item.UserName)
                         </td>
                         <td>
-                            @Html.ActionLink("Файлы", "ManageFiles", "Administration", item,null)
+                            @Html.ActionLink("Файлы", "ManageFiles", new { id = item.UserId })
                         </td>
                         <td>
-                            @Html.ActionLink("Удалить пользователя", "Delete", "Account",item,null)
+                            @Html.ActionLink("Удалить", "Delete", "Account", new { id = item.UserId },null)
                         </td>
                     </tr>
                 }

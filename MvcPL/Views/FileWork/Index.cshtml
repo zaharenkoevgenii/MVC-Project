@@ -47,7 +47,7 @@
                     @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
                 </td>
                 <td>
-                    @Html.ActionLink("Загрузить", "Download", item)
+                    @Html.ActionLink("Загрузить", "Download", new { id = item.Id })
                 </td>
             </tr>
         }

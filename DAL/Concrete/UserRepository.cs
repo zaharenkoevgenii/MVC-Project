@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using DAL.Interface.DTO;
 using DAL.Interface.Repository;
@@ -11,16 +10,16 @@ namespace DAL.Concrete
 {
     public class UserRepository : IRepository<DalUser>
     {
-        private readonly DbContext context;
+        private readonly DbContext _context;
 
         public UserRepository(DbContext uow)
         {
-            this.context = uow;
+            _context = uow;
         }
 
         public IEnumerable<DalUser> GetAll()
         {
-            return context.Set<Users>().Select(user => new DalUser()
+            return _context.Set<Users>().Select(user => new DalUser
                         {
                             Id = user.UserId,
                             Name = user.UserName,
@@ -29,10 +28,10 @@ namespace DAL.Concrete
 
         public IEnumerable<DalUser> GetN(int n)
         {
-            return context.Set<Users>()
+            return _context.Set<Users>()
                 .OrderByDescending(user => user.Memberships.LastLoginDate)
                 .Take(5)
-                .Select(user => new DalUser()
+                .Select(user => new DalUser
                 {
                     Id = user.UserId,
                     Name = user.UserName
@@ -41,8 +40,8 @@ namespace DAL.Concrete
 
         public DalUser GetById(Guid key)
         {
-            var ormuser = context.Set<Users>().FirstOrDefault(user => user.UserId == key);
-            return new DalUser()
+            var ormuser = _context.Set<Users>().First(user => user.UserId == key);
+            return new DalUser
             {
                 Id = ormuser.UserId,
                 Name = ormuser.UserName
@@ -56,25 +55,20 @@ namespace DAL.Concrete
 
         public void Create(DalUser e)
         {
-            var user = new Users()
+            var user = new Users
             {
                 UserId = e.Id,
                 UserName = e.Name,
             };
-            context.Set<Users>().Add(user);
+            _context.Set<Users>().Add(user);
         }
 
         public void Delete(Guid id)
         {
-            var member = context.Set<Memberships>().Single(m => m.UserId == id);
-            context.Set<Memberships>().Remove(member);
-            var user = context.Set<Users>().Single(o => o.UserId == id);
-            context.Set<Users>().Remove(user);
-        }
-
-        public void Update(DalUser entity)
-        {
-            throw new NotImplementedException();
+            var member = _context.Set<Memberships>().Single(m => m.UserId == id);
+            _context.Set<Memberships>().Remove(member);
+            var user = _context.Set<Users>().Single(o => o.UserId == id);
+            _context.Set<Users>().Remove(user);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace BLL.Mappers
     {
         public static DalUser ToDalUser(this UserEntity userEntity)
         {
-            return new DalUser()
+            return new DalUser
             {
                 Id = userEntity.Id,
                 Name = userEntity.UserName,
@@ -16,7 +16,7 @@ namespace BLL.Mappers
 
         public static UserEntity ToBllUser(this DalUser dalUser)
         {
-            return new UserEntity()
+            return new UserEntity
             {
                 Id = dalUser.Id,
                 UserName = dalUser.Name,
@@ -25,7 +25,7 @@ namespace BLL.Mappers
 
         public static DalFile ToDalFile(this FileEntity fileEntity)
         {
-            return new DalFile()
+            return new DalFile
             {
                 Id = fileEntity.Id,
                 Name = fileEntity.Name,
@@ -36,7 +36,7 @@ namespace BLL.Mappers
 
         public static FileEntity ToBllFile(this DalFile dalFile)
         {
-            return new FileEntity()
+            return new FileEntity
             {
                 Id = dalFile.Id,
                 Name = dalFile.Name,

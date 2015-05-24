@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
+﻿using System.Text;
 using System.Web.Mvc;
 
 namespace MvcPL.Utils
 {
     public class HtmlResult : ActionResult
     {
-        private readonly string content;
+        private readonly string _content;
         public HtmlResult(string content)
         {
-            this.content = content;
+            _content = content;
         }
         public HtmlResult(string content,string id)
         {
-            this.content = @"<table id = """+id+@"""><tr><td>"+content+"</td></tr></table>";
+            _content = @"<table id = """+id+@"""><tr><td>"+content+"</td></tr></table>";
         }
         public override void ExecuteResult(ControllerContext context)
         {
@@ -27,7 +23,7 @@ namespace MvcPL.Utils
             resultHtml.Append("<title>Index</title>");
             resultHtml.Append("</head>");
             resultHtml.Append("<body>");
-            resultHtml.Append(content);
+            resultHtml.Append(_content);
             resultHtml.Append("</body></html>");
             context.HttpContext.Response.Write(resultHtml.ToString());
         }

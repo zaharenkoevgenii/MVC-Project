@@ -13,6 +13,5 @@ namespace DAL.Interface.Repository
         TEntity GetByPredicate(Expression<Func<TEntity, bool>> f);
         void Create(TEntity entity);
         void Delete(Guid id);
-        void Update(TEntity entity);
     }
 }

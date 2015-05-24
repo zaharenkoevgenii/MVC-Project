@@ -1,11 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Providers;
-using System.Web.Providers.Entities;
-using System.Web.Security;
-using BLL.Interface.Entities;
 using BLL.Interface.Services;
-using MvcPL.Models;
 
 namespace MvcPL.Controllers
 {
@@ -14,7 +9,7 @@ namespace MvcPL.Controllers
         private readonly IUserService _service;
         public HomeController(IUserService service)
         {
-            this._service = service;
+            _service = service;
         }
 
         public ActionResult Index()
