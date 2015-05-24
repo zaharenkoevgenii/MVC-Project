@@ -50,7 +50,12 @@ namespace DAL.Concrete
 
         public DalUser GetByPredicate(System.Linq.Expressions.Expression<Func<DalUser, bool>> f)
         {
-            throw new NotImplementedException();
+            var ormUser = _context.Set<Users>().Select(user => new DalUser
+            {
+                Id = user.UserId,
+                Name = user.UserName
+            }).FirstOrDefault(f);
+            return ormUser;
         }
 
         public void Create(DalUser e)

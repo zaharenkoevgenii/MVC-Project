@@ -149,6 +149,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructura\CaptchaImage.cs" />
     <Compile Include="Infrastructura\NinjectDependencyResolver.cs" />
     <Compile Include="Models\ExtendedFileViewModel.cs" />
     <Compile Include="Models\FileViewModel.cs" />

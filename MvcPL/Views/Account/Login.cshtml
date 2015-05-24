@@ -10,7 +10,7 @@
     @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
+        @Html.ValidationSummary(true,"Некорректное имя пользователя или пароль")
 
         <fieldset>
             <div class="editor-label">

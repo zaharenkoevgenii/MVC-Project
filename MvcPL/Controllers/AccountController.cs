@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Drawing.Imaging;
+using System.Globalization;
 using System.Linq;
 using System.IO;
 using System.Web.Mvc;
 using BLL.Interface.Services;
+using MvcPL.Infrastructura;
 using MvcPL.Models;
 using System.Web.Security;
 
@@ -28,16 +31,10 @@ namespace MvcPL.Controllers
         [HttpPost]
         public ActionResult Login(LogInViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                if (Membership.ValidateUser(model.UserName, model.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    return RedirectToAction("Index", "Home");
-                }
-                ModelState.AddModelError("wrong user info", "Неправильный пароль или логин");
-            }
-            return View(model);
+            if (!ModelState.IsValid) return View(model);
+            if (!Membership.ValidateUser(model.UserName, model.Password)) return View(model);
+            FormsAuthentication.SetAuthCookie(model.UserName, false);
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult LogOut()
@@ -55,11 +52,28 @@ namespace MvcPL.Controllers
         [HttpPost]
         public ActionResult Create(RegistrationViewModel user)
         {
-            Membership.CreateUser(user.UserName, user.Password, user.Email);
-            Roles.AddUserToRole(user.UserName, "user");
-            if (user.UserName == "admin") Roles.AddUserToRole(user.UserName, "admin");
-            FormsAuthentication.SetAuthCookie(user.UserName, user.LogInNow);
-            return RedirectToAction("Index","Home");
+            if (user.Captcha != (string)Session[CaptchaImage.CaptchaValueKey])
+            {
+                ModelState.AddModelError("Captcha", "Текст с картинки введен неверно");
+                return View(user);
+            }
+
+            var anyUser = _uservice.GetAllUserEntities().Any(u => u.UserName.Contains(user.UserName));
+
+            if (anyUser)
+            {
+                ModelState.AddModelError("Email", "Пользователь с таким именем уже зарегистрирован");
+                return View(user);
+            }
+            if (ModelState.IsValid)
+            {
+                Membership.CreateUser(user.UserName, user.Password, user.Email);
+                Roles.AddUserToRole(user.UserName, "user");
+                if (user.UserName == "admin") Roles.AddUserToRole(user.UserName, "admin");
+                FormsAuthentication.SetAuthCookie(user.UserName, false);
+                return RedirectToAction("Index", "Home");
+            }
+            return View(user);
         }
         
         [HttpGet]
@@ -78,6 +92,22 @@ namespace MvcPL.Controllers
                 FormsAuthentication.SignOut();
             _uservice.DeleteUser(Guid.Parse(id));
             return RedirectToAction("Index","Administration");
+        }
+
+        public ActionResult Captcha()
+        {
+            Session[CaptchaImage.CaptchaValueKey] =
+                new Random(DateTime.Now.Millisecond).Next(1111, 9999).ToString(CultureInfo.InvariantCulture);
+            var ci = new CaptchaImage(Session[CaptchaImage.CaptchaValueKey].ToString(), 211, 50, "Helvetica");
+
+            Response.Clear();
+            Response.ContentType = "image/jpeg";
+
+            // Write the image to the response stream in JPEG format.
+            ci.Image.Save(Response.OutputStream, ImageFormat.Jpeg);
+
+            ci.Dispose();
+            return null;
         }
     }
 }
