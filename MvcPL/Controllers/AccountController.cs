@@ -5,17 +5,18 @@ using System.Linq;
 using System.IO;
 using System.Web.Mvc;
 using BLL.Interface.Services;
+using MvcPL.Filters;
 using MvcPL.Infrastructura;
 using MvcPL.Models;
 using System.Web.Security;
 
 namespace MvcPL.Controllers
 {
+    [HandleAllError]
     public class AccountController : Controller
     {
         private readonly IUserService _uservice;
         private readonly IFileService _fservice;
-
 
         public AccountController(IUserService uservice,IFileService fservice)
         {

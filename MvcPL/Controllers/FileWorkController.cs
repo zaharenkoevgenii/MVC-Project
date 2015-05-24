@@ -5,11 +5,13 @@ using System.Linq;
 using System.Web.Mvc;
 using BLL.Interface.Entities;
 using BLL.Interface.Services;
+using MvcPL.Filters;
 using MvcPL.Models;
 
 namespace MvcPL.Controllers
 {
     [Authorize(Roles = "user")]
+    [HandleAllError]
     public class FileWorkController : Controller
     {
         private readonly IFileService _fservice;

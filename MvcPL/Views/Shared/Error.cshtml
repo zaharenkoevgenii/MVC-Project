@@ -1,5 +1,7 @@
-﻿@{
-    Layout = null;
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
 }
 
 <!DOCTYPE html>
@@ -9,9 +11,13 @@
     <title>Error</title>
 </head>
 <body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
+    <h2>
+        Во время обработки вашего запроса возникла непредвиденная ошибка.<br>
+        Мы уже работаем над этим, спасибо за понимание.
+    </h2>
+    <h3>
+        Причина ошибки: 
+        @Model.Exception.Message
+    </h3>
 </body>
 </html>

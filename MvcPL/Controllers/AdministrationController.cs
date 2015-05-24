@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using BLL.Interface.Services;
+using MvcPL.Filters;
 using MvcPL.Models;
 using MvcPL.Utils;
 
 namespace MvcPL.Controllers
 {
+    [HandleAllError]
     public class AdministrationController : Controller
     {
         private readonly IFileService _fservice;

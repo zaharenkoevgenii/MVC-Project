@@ -1,9 +1,12 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using BLL.Interface.Services;
+using MvcPL.Filters;
 
 namespace MvcPL.Controllers
 {
+    [HandleAllError]
     public class HomeController : Controller
     {
         private readonly IUserService _service;

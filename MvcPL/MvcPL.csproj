@@ -146,11 +146,13 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\FileWorkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\HandleAllErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructura\CaptchaImage.cs" />
     <Compile Include="Infrastructura\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\Error.cs" />
     <Compile Include="Models\ExtendedFileViewModel.cs" />
     <Compile Include="Models\FileViewModel.cs" />
     <Compile Include="Models\LogInViewModel.cs" />
