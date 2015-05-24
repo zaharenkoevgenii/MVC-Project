@@ -256,6 +256,7 @@
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Shared\_UserPartial.cshtml" />
     <Content Include="Views\Administration\ManageFiles.cshtml" />
+    <Content Include="Views\Shared\_FilePartialSimple.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />

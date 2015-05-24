@@ -24,21 +24,20 @@ namespace MvcPL.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login()
         {
-            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(LogInViewModel model, string returnUrl)
+        public ActionResult Login(LogInViewModel model)
         {
             if (ModelState.IsValid)
             {
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    return RedirectToRoute(returnUrl);
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -84,7 +83,7 @@ namespace MvcPL.Controllers
             if (userView.UserName==User.Identity.Name)
                 FormsAuthentication.SignOut();
             _uservice.DeleteUser(Guid.Parse(userView.UserId));
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index","Administration");
         }
     }
 }

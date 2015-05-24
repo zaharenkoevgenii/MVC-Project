@@ -5,8 +5,8 @@
 }
 
 <h2 align="center">Управление</h2>
-<h3 align="center">@Html.ActionLink("Перейти к файлам","ManageFiles")</h3>
-<div align="right">
+<h3 align="center">@Html.ActionLink("Перейти к файлам","ManageFiles",null,null)</h3>
+<div align="center">
     @using (Ajax.BeginForm("SearchUEntry",
                         new AjaxOptions { UpdateTargetId = "searchresults", InsertionMode = InsertionMode.Replace }))
     {
@@ -14,9 +14,9 @@
         <input type="button" value="Поиск" id="btnSearch" />
     }
 </div>
-<table>
+<table align="right" width="100%">
     <tr>
-        <td width="20%">
+        <td width="30%">
             <table>
                 @foreach (var item in Model)
                 {
@@ -25,10 +25,10 @@
                             @Html.DisplayFor(modelItem => item.UserName)
                         </td>
                         <td>
-                            @Html.ActionLink("Файлы", "ManageUFiles", "Administration",item.UserId,null)
+                            @Html.ActionLink("Файлы", "ManageFiles", "Administration", item,null)
                         </td>
                         <td>
-                            @Html.ActionLink("Удалить пользователя", "Delete", "Administration")
+                            @Html.ActionLink("Удалить пользователя", "Delete", "Account",item,null)
                         </td>
                     </tr>
                 }
@@ -36,7 +36,7 @@
         </td>
         <td width="40%">
         </td>
-        <td width="20%">
+        <td width="30%">
             <table id="entries">
                 
             </table>

@@ -76,23 +76,36 @@ namespace MvcPL.Controllers
                         OwnerId = _uservice.GetAllUserEntities().First(user=>user.UserName==User.Identity.Name).Id
                     };
                     _fservice.CreateFile(bllFile);
-                    return PartialView("_FilePartial", bllFile);
+                    return PartialView("_FilePartialSimple", bllFile);
                 }
             return null;
         }
 
         public ActionResult Download(FileViewModel fileView)
         {
-            var path = Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileView.Name);
+            var username =
+                _uservice
+                    .GetAllUserEntities()
+                    .First(u => u.Id == Guid.Parse(fileView.OwnerId)).UserName;
+            var path = Server.MapPath("~/Files/" + username + "/" + fileView.Name);
             return File(path, "*/*", fileView.Name);
         }
 
         public ActionResult Delete(string id)
         {
+            
             var name = _fservice.GetAllFileEntities().First(f => f.Id == Guid.Parse(id)).Name;
-            System.IO.File.Delete(Server.MapPath("~/Files/" + User.Identity.Name + "/" + name));
+            var username =
+                _uservice
+                    .GetAllUserEntities()
+                    .First(u => u.Id == _fservice
+                        .GetAllFileEntities()
+                        .First(f => f.Id == Guid.Parse(id)).OwnerId).UserName;
+            System.IO.File.Delete(Server.MapPath("~/Files/" + username + "/" + name));
             _fservice.DeleteFile(Guid.Parse(id));
+            if (username==User.Identity.Name)
             return RedirectToAction("Index");
+            return RedirectToAction("ManageFiles", "Administration");
         }
     }
 }

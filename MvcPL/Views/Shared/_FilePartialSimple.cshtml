@@ -1,0 +1,16 @@
+﻿@model BLL.Interface.Entities.FileEntity
+
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Created)
+    </td>
+    <td>
+        @Html.ActionLink("Удалить", "Delete", "FileWork", Model, null);
+    </td>
+    <td>
+        @Html.ActionLink("Загрузить", "Download", "FileWork", Model, null);
+    </td>
+</tr>

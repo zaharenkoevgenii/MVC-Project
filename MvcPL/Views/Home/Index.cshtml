@@ -1,27 +1,22 @@
-﻿@using System
-@using Microsoft.Ajax.Utilities
-@model IEnumerable<MvcPL.Models.UserViewModel>
+﻿@model IEnumerable<string>
 @{
     ViewBag.Title = "The best file storage";
 }
 
 <center>
-    <h2>The best file storage</h2>
+    <h2>Лучшее файловое хранилище</h2>
     <table>
         <tr>
-
             <th>
-                Current users list
+                Пять последних пользователей
             </th>
-
-            <th></th>
         </tr>
 
         @foreach (var item in Model)
         {
             <tr>
                 <td align="center">
-                    @Html.DisplayFor(modelItem => item.UserName)
+                    @Html.DisplayFor(modelItem => item)
                 </td>
             </tr>
         }

@@ -44,7 +44,7 @@
                     @Html.DisplayFor(modelItem => item.Created)
                 </td>
                 <td>
-                    @Html.ActionLink("Удалить","Delete",item.Id)
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
                 </td>
                 <td>
                     @Html.ActionLink("Загрузить", "Download", item)
