@@ -32,10 +32,14 @@ namespace MvcPL.Controllers
         [HttpPost]
         public ActionResult Login(LogInViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
-            if (!Membership.ValidateUser(model.UserName, model.Password)) return View(model);
-            FormsAuthentication.SetAuthCookie(model.UserName, false);
-            return RedirectToAction("Index", "Home");
+            if (!FindUser(model.UserName))
+            {
+                if (!ModelState.IsValid) return View(model);
+                if (!Membership.ValidateUser(model.UserName, model.Password)) return View(model);
+                FormsAuthentication.SetAuthCookie(model.UserName, false);
+                return RedirectToAction("Index", "Home");
+            }
+                return RedirectToAction("Create", "Account");
         }
 
         public ActionResult LogOut()
@@ -53,6 +57,11 @@ namespace MvcPL.Controllers
         [HttpPost]
         public ActionResult Create(RegistrationViewModel user)
         {
+            if (!FindUser(user.UserName))
+            {
+                return Login(new LogInViewModel() {Password = user.Password, UserName = user.UserName});
+            }
+
             if (user.Captcha != (string)Session[CaptchaImage.CaptchaValueKey])
             {
                 ModelState.AddModelError("Captcha", "Текст с картинки введен неверно");
@@ -109,6 +118,11 @@ namespace MvcPL.Controllers
 
             ci.Dispose();
             return null;
+        }
+
+        private bool FindUser(string name)
+        {
+            return _uservice.GetAllUserEntities().FirstOrDefault(u => u.UserName == name) == null;
         }
     }
 }

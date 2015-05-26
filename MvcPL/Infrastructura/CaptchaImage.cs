@@ -92,7 +92,7 @@ namespace MvcPL.Infrastructura
             g.FillRectangle(hatchBrush, rect);
 
             SizeF size;
-            float fontSize = rect.Height + 1;
+            float fontSize = rect.Height;
             Font font;
             do
             {
