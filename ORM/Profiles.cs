@@ -1,21 +1,23 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ORM
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class Profiles
+    public class Profiles
     {
-        [Key]
-        public Guid UserId { get; set; }
+        [Key,ForeignKey("User")]
+        public int Id { get; set; }
         [Required]
-        public string PropertyNames { get; set; }
+        public string FirstName { get; set; }
         [Required]
-        public string PropertyValueStrings { get; set; }
+        public string LastName { get; set; }
         [Required]
-        public byte[] PropertyValueBinary { get; set; }
-        public DateTime LastUpdatedDate { get; set; }
+        public int Age { get; set; }
+        [Required]
+        public DateTime LastUpdateDate { get; set; }
 
-
-        public virtual Users Users { get; set; }
+        public virtual Users User { get; set; }
     }
 }

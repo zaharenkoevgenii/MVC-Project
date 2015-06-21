@@ -50,9 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Applications.cs" />
     <Compile Include="Files.cs" />
-    <Compile Include="Memberships.cs" />
     <Compile Include="Migrations\201505061519266_correctionGlobal.cs" />
     <Compile Include="Migrations\201505061519266_correctionGlobal.Designer.cs">
       <DependentUpon>201505061519266_correctionGlobal.cs</DependentUpon>
@@ -109,13 +107,24 @@
     <Compile Include="Migrations\201505130842022_changeprivacyondate.Designer.cs">
       <DependentUpon>201505130842022_changeprivacyondate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506210744280_dropdbInfo.cs" />
+    <Compile Include="Migrations\201506210744280_dropdbInfo.Designer.cs">
+      <DependentUpon>201506210744280_dropdbInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506210840501_fillDBAgain.cs" />
+    <Compile Include="Migrations\201506210840501_fillDBAgain.Designer.cs">
+      <DependentUpon>201506210840501_fillDBAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506210845024_changes1.cs" />
+    <Compile Include="Migrations\201506210845024_changes1.Designer.cs">
+      <DependentUpon>201506210845024_changes1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model1.cs" />
+    <Compile Include="EntityModel.cs" />
     <Compile Include="Profiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roles.cs" />
     <Compile Include="Users.cs" />
-    <Compile Include="UsersInRoles.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -169,6 +178,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505130842022_changeprivacyondate.resx">
       <DependentUpon>201505130842022_changeprivacyondate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506210744280_dropdbInfo.resx">
+      <DependentUpon>201506210744280_dropdbInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506210840501_fillDBAgain.resx">
+      <DependentUpon>201506210840501_fillDBAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506210845024_changes1.resx">
+      <DependentUpon>201506210845024_changes1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

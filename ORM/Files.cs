@@ -4,17 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ORM
 {
-    public partial class Files
+    public class Files
     {
         [Key]
-        public Guid FileId { get; set; }
+        public int Id { get; set; }
         [Required]
-        [StringLength(50)]
-        public string FileName { get; set; }
-        public DateTime CreationTime { get; set; }
+        public string Name { get; set; }
+        [Required]
+        public bool Private { get; set; }
+        [Required]
+        public int Rating { get; set; }
+        [Required]
+        public DateTime CrationTime { get; set; }
 
-        public Guid UserId { get; set; }
-        [ForeignKey("UserId")]
-        public virtual Users Users { get; set; }
+        public int UserRefId { get; set; }
+        [ForeignKey("UserRefId")]
+        public virtual Users User { get; set; }
     }
 }
