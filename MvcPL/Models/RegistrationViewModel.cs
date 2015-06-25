@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MvcPL.Models
 {
@@ -27,5 +28,8 @@ namespace MvcPL.Models
 
         [Required]
         public string Captcha { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime AddedDate { get; set; }
     }
 }

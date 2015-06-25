@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using DAL.Interface.DTO;
 using DAL.Interface.Repository;
@@ -17,77 +18,55 @@ namespace DAL.Concrete
             _context = uow;
         }
 
-        public IEnumerable<DalFile> GetAll()
+        public IEnumerable<DalFile> Get(int n=0)
         {
-            throw new NotImplementedException();
-            //return _context.Set<Files>().Select(file => new DalFile
-            //{
-            //    Id = file.FileId,
-            //    Name = file.FileName,
-            //    Created = file.CreationTime,
-            //    OwnerId = file.UserId
-            //});
+            var x = _context.Set<Files>().ToList();
+            if (n != 0) x = _context.Set<Files>().Take(n).ToList();
+            return x.Select(file => new DalFile()
+            {
+                Id = file.Id,
+                Name = file.Name,
+                Private = file.Private,
+                CreationTime = file.CreationTime,
+                Rating = file.Rating,
+                UserRefId = file.UserId,
+                File = file.File
+            });
         }
 
-        public IEnumerable<DalFile> GetN(int n)
+        public DalFile Search(System.Linq.Expressions.Expression<Func<DalFile, bool>> f)
         {
-            throw new NotImplementedException();
-            //return _context.Set<Files>()
-            //    .OrderByDescending(file=>file.CreationTime)
-            //    .Take(5)
-            //    .Select(file => new DalFile
-            //{
-            //    Id = file.FileId,
-            //    Name = file.FileName,
-            //    Created = file.CreationTime,
-            //    OwnerId = file.UserId
-            //});
+            return _context.Set<Files>().Select(file => new DalFile
+            {
+                Id = file.Id,
+                Name = file.Name,
+                Private = file.Private,
+                CreationTime = file.CreationTime,
+                Rating = file.Rating,
+                UserRefId = file.UserId,
+                File = file.File
+            }).FirstOrDefault(f);
         }
 
-        public DalFile GetById(Guid key)
+        public void Create(DalFile file)
         {
-            throw new NotImplementedException();
-            //var ormFile = _context.Set<Files>().First(file => file.FileId == key);
-            //return new DalFile
-            //{
-            //    Id = ormFile.FileId,
-            //    Name = ormFile.FileName,
-            //    Created = ormFile.CreationTime,
-            //    OwnerId = ormFile.UserId
-            //};
+            var f = new Files
+            {
+                Id = file.Id,
+                Name = file.Name,
+                Private = file.Private,
+                CreationTime = file.CreationTime,
+                Rating = file.Rating,
+                UserId = file.UserRefId,
+                File = file.File
+            };
+            _context.Set<Files>().Add(f);
         }
 
-        public DalFile GetByPredicate(System.Linq.Expressions.Expression<Func<DalFile, bool>> f)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
-            //var ormFile = _context.Set<Files>().Select(file => new DalFile
-            //{
-            //    Id = file.FileId,
-            //    Name = file.FileName,
-            //    Created = file.CreationTime,
-            //    OwnerId = file.UserId
-            //}).FirstOrDefault(f);
-            //return ormFile;
-        }
-
-        public void Create(DalFile e)
-        {
-            throw new NotImplementedException();
-            //var file = new Files
-            //{
-            //    FileId = e.Id,
-            //    FileName = e.Name,
-            //    CreationTime = e.Created,
-            //    UserId = e.OwnerId
-            //};
-            //_context.Set<Files>().Add(file);
-        }
-
-        public void Delete(Guid id)
-        {
-            throw new NotImplementedException();
-            //var file = _context.Set<Files>().Single(o => o.FileId == id);
-            //_context.Set<Files>().Remove(file);
+            var file = _context.Set<Files>().Single(f => f.Id == id);
+            _context.Set<Files>().Remove(file);
         }
     }
 }

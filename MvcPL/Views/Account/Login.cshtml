@@ -5,20 +5,20 @@
 }
 
 <center>
-    <h2>Вход в систему</h2>
+    <h2>Log in</h2>
 
     @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true,"Некорректное имя пользователя или пароль")
+        @Html.ValidationSummary(true,"Incorrect Email or Password")
 
         <fieldset>
             <div class="editor-label">
-                @Html.LabelFor(model => model.UserName)
+                @Html.LabelFor(model => model.Email)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.UserName)
-                @Html.ValidationMessageFor(model => model.UserName)
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
             </div>
             <div class="editor-label">
                 @Html.LabelFor(model => model.Password)
@@ -34,7 +34,7 @@
     }
 
 <div>
-    @Html.ActionLink("Зарегистрироваться", "Create", "Account")
+    @Html.ActionLink("Register", "Create", "Account")
 </div>
 </center>
 

@@ -4,21 +4,23 @@ using System.Globalization;
 using System.Linq;
 using System.IO;
 using System.Web.Mvc;
-using BLL.Interface.Services;
+using BLL.Interface.Entities;
+using BLL.Interfacies.Services;
 using MvcPL.Filters;
 using MvcPL.Infrastructura;
 using MvcPL.Models;
 using System.Web.Security;
+using MvcPL.Providers;
 
 namespace MvcPL.Controllers
 {
     [HandleAllError]
     public class AccountController : Controller
     {
-        private readonly IUserService _uservice;
-        private readonly IFileService _fservice;
+        private readonly IService<UserEntity> _uservice;
+        private readonly IService<FileEntity> _fservice;
 
-        public AccountController(IUserService uservice,IFileService fservice)
+        public AccountController(IService<UserEntity> uservice, IService<FileEntity> fservice)
         {
             _uservice = uservice;
             _fservice = fservice;
@@ -30,16 +32,15 @@ namespace MvcPL.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LogInViewModel model)
+        public ActionResult Login(LogInViewModel viewModel)
         {
-            if (!FindUser(model.UserName))
+            if (!ModelState.IsValid) return View(viewModel);
+            if (Membership.ValidateUser(viewModel.Email, viewModel.Password))
             {
-                if (!ModelState.IsValid) return View(model);
-                if (!Membership.ValidateUser(model.UserName, model.Password)) return View(model);
-                FormsAuthentication.SetAuthCookie(model.UserName, false);
+                FormsAuthentication.SetAuthCookie(viewModel.Email, viewModel.RememberMe);
                 return RedirectToAction("Index", "Home");
             }
-                return RedirectToAction("Create", "Account");
+            return View(viewModel);
         }
 
         public ActionResult LogOut()
@@ -57,50 +58,43 @@ namespace MvcPL.Controllers
         [HttpPost]
         public ActionResult Create(RegistrationViewModel user)
         {
-            if (!FindUser(user.UserName))
-            {
-                return Login(new LogInViewModel() {Password = user.Password, UserName = user.UserName});
-            }
-
             if (user.Captcha != (string)Session[CaptchaImage.CaptchaValueKey])
             {
-                ModelState.AddModelError("Captcha", "Текст с картинки введен неверно");
+                ModelState.AddModelError("Captcha", "Wrong capthca");
                 return View(user);
             }
-
-            var anyUser = _uservice.GetAllUserEntities().Any(u => u.UserName.Contains(user.UserName));
+            var anyUser = _uservice.Get().Any(u => u.Email.Contains(user.Email));
 
             if (anyUser)
             {
-                ModelState.AddModelError("Email", "Пользователь с таким именем уже зарегистрирован");
+                ModelState.AddModelError("Email", "Such Email already exists");
                 return View(user);
             }
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid) return View(user);
+            MembershipUser membershipUser = ((CustomMembershipProvider)Membership.Provider)
+                .CreateUser(user.Email, user.Password);
+
+            if (membershipUser != null)
             {
-                Membership.CreateUser(user.UserName, user.Password, user.Email);
-                Roles.AddUserToRole(user.UserName, "user");
-                if (user.UserName == "admin") Roles.AddUserToRole(user.UserName, "admin");
-                FormsAuthentication.SetAuthCookie(user.UserName, false);
-                return RedirectToAction("Index", "Home");
+                FormsAuthentication.SetAuthCookie(user.Email, false);
+                Login(new LogInViewModel()
+                {
+                    Email = user.Email,
+                    Password = user.Password,
+                    RememberMe = false
+                });
             }
+            ModelState.AddModelError("", "Ошибка при регистрации");
             return View(user);
         }
         
         [HttpGet]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id)
         {
-            var files=_fservice.GetAllFileEntities().Where(f => f.OwnerId == Guid.Parse(id));
-            var username = _uservice.GetAllUserEntities().First(u => u.Id == Guid.Parse(id)).UserName;
-            foreach (var file in files)
-            {
-                RedirectToAction("Delete", "FileWork", file.Id);
-                System.IO.File.Delete(Server.MapPath("~/Files/" + username + "/" + file.Name));
-            }
-            if (Directory.Exists(Server.MapPath("~/Files/" + username)))
-                Directory.Delete(Server.MapPath("~/Files/" + username));
-            if (username == User.Identity.Name)
-                FormsAuthentication.SignOut();
-            _uservice.DeleteUser(Guid.Parse(id));
+            var username = _uservice.Get().First(u => u.Id == id).Email;
+            if (username == User.Identity.Name) FormsAuthentication.SignOut();
+            _uservice.Remove(id);
             return RedirectToAction("Index","Administration");
         }
 
@@ -118,11 +112,6 @@ namespace MvcPL.Controllers
 
             ci.Dispose();
             return null;
-        }
-
-        private bool FindUser(string name)
-        {
-            return _uservice.GetAllUserEntities().FirstOrDefault(u => u.UserName == name) == null;
         }
     }
 }

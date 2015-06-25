@@ -5,7 +5,7 @@
 }
 
 <center>
-    <h2>Регистрация</h2>
+    <h2>Register</h2>
 
     @using (Html.BeginForm())
     {
@@ -38,7 +38,7 @@
                 @Html.EditorFor(model => model.Email)
             </div>
             <div class="editor-label">
-                @Html.Label("Введите капчу")
+                @Html.Label("Enter captcha")
             </div>
             <div class="editor-label">
                 <label>
@@ -55,7 +55,7 @@
         </fieldset>
     }
     <div>
-        @Html.ActionLink("На главную", "Index", "Home")
+        @Html.ActionLink("Return to main", "Index", "Home")
     </div>
 </center>
 

@@ -1,5 +1,4 @@
-﻿@using System.Diagnostics.Eventing.Reader
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -11,32 +10,32 @@
 <body>
     <table cellspacing="10%" width="100%">
         <tr>
-            <td width="15%">@Html.ActionLink("Главная", "Index", "Home")</td>
-            <td width="15%">@Html.ActionLink("Мои файлы", "Index", "FileWork")</td>
+            <td width="15%">@Html.ActionLink("Main", "Index", "Home")</td>
+            <td width="15%">@Html.ActionLink("My Files", "Index", "FileWork")</td>
             <td width="15%">
-            @if (User.IsInRole("admin"))
+            @*@if (User.IsInRole("admin"))
                 {
-                    @Html.ActionLink("Управление", "Index", "Administration")
-                }
+                    @Html.ActionLink("Administration", "Index", "Administration")
+                }*@
             </td>
             <td width="35%"> </td>
             
                 @if (User.Identity.IsAuthenticated)
                 {
                     <td width="15%">
-                        @Html.Label("Добро пожаловать: " + User.Identity.Name + " ")
+                        @Html.Label("Welcome: " + User.Identity.Name + " ")
                     </td>
                     <td width="5%">
-                        @Html.ActionLink("Выход", "Logout", "Account")
+                        @Html.ActionLink("LogOff", "Logout", "Account")
                     </td>
                 }
                 else
                 {
                     <td width="10%">
-                        @Html.Label("Авторизируйтесь-> ")
+                        @Html.Label("Authorize-> ")
                     </td>
                     <td width="5%">
-                        @Html.ActionLink("Вход", "Login", "Account")
+                        @Html.ActionLink("LogIn", "Login", "Account")
                     </td>
                 }
                     

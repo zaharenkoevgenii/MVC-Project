@@ -3,25 +3,31 @@ namespace ORM
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
-    public class Users
+    public partial class Users
     {
         public Users()
         {
-            Files = new List<Files>();
+            Files = new HashSet<Files>();
+            Roles = new HashSet<Roles>();
         }
 
-        [Key]
         public int Id { get; set; }
+
         [Required]
         public string Email { get; set; }
+
         [Required]
         public string Password { get; set; }
-        [Required]
+
         public DateTime CreationTime { get; set; }
 
-        public virtual Profiles Profile { get; set; }
         public virtual ICollection<Files> Files { get; set; }
+
+        public virtual Profiles Profiles { get; set; }
+
         public virtual ICollection<Roles> Roles { get; set; }
     }
 }

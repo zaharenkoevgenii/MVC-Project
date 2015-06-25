@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
-using BLL.Interface.Services;
+using BLL.Interface.Entities;
+using BLL.Interfacies.Services;
 using MvcPL.Filters;
 using MvcPL.Models;
 using MvcPL.Utils;
@@ -10,9 +12,10 @@ namespace MvcPL.Controllers
     [HandleAllError]
     public class AdministrationController : Controller
     {
-        private readonly IFileService _fservice;
-        private readonly IUserService _uservice;
-        public AdministrationController(IFileService fservice, IUserService uservice)
+        private readonly IService<UserEntity> _uservice;
+        private readonly IService<FileEntity> _fservice;
+
+        public AdministrationController(IService<UserEntity> uservice, IService<FileEntity> fservice)
         {
             _fservice = fservice;
             _uservice = uservice;
@@ -21,12 +24,12 @@ namespace MvcPL.Controllers
         public ActionResult Index()
         {
             return View(_uservice
-                .GetAllUserEntities()
-                .OrderBy(user => user.UserName)
+                .Get()
+                .OrderBy(user => user.Email)
                 .Select(user => new UserViewModel
                 {
-                    UserName = user.UserName,
-                    UserId = user.Id.ToString()
+                    Email = user.Email,
+                    Id = user.Id
                 }));
         }
 
@@ -34,15 +37,15 @@ namespace MvcPL.Controllers
         {
             string tag = Request.Form.Get("tagInput");
             var entry=_uservice
-                .GetAllUserEntities()
+                .Get()
                 .Select(user => new UserViewModel
                 {
-                      UserName = user.UserName,
-                      UserId = user.Id.ToString()
+                      Email = user.Email,
+                      Id = user.Id
                     });
             if (!string.IsNullOrEmpty(tag))
             {
-                entry = entry.Where(s => s.UserName.Contains(tag));
+                entry = entry.Where(s => s.Email.Contains(tag));
             }
             if (!entry.Any())
             {
@@ -53,16 +56,16 @@ namespace MvcPL.Controllers
 
         public ActionResult SearchFEntry()
         {
-            string tag = Request.Form.Get("tagInput");
+            var tag = Request.Form.Get("tagInput");
             var entry = _fservice
-                .GetAllFileEntities()
+                .Get()
                 .Select(file => new ExtendedFileViewModel
                 {
                     Name = file.Name,
-                    Id = file.Id.ToString(),
-                    OwnerId = file.OwnerId.ToString(),
-                    Created = file.Created,
-                    OwnerName = _uservice.GetAllUserEntities().First(user => user.Id == file.OwnerId).UserName
+                    Id = file.Id.ToString(CultureInfo.InvariantCulture),
+                    OwnerId = file.UserRefId.ToString(CultureInfo.InvariantCulture),
+                    Created = file.CreationTime,
+                    OwnerName = _uservice.Get().First(user => user.Id == file.UserRefId).Email
                 });
             if (!string.IsNullOrEmpty(tag))
             {
@@ -78,15 +81,15 @@ namespace MvcPL.Controllers
         public ActionResult ManageFiles(string id)
         {
             var data = _fservice
-                .GetAllFileEntities()
+                .Get()
                 .OrderBy(file => file.Name)
                 .Select(file => new ExtendedFileViewModel
                 {
                     Name = file.Name,
-                    Id = file.Id.ToString(),
-                    OwnerId = file.OwnerId.ToString(),
-                    OwnerName = _uservice.GetAllUserEntities().First(user => user.Id == file.OwnerId).UserName,
-                    Created = file.Created
+                    Id = file.Id.ToString(CultureInfo.InvariantCulture),
+                    OwnerId = file.UserRefId.ToString(CultureInfo.InvariantCulture),
+                    OwnerName = _uservice.Get().First(user => user.Id == file.UserRefId).Email,
+                    Created = file.CreationTime
                 });
             if (id != null) data = data.Where(file => file.OwnerId == id);
             return View(data);

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using BLL.Interface.Entities;
-using BLL.Interface.Services;
+using BLL.Interfacies.Services;
 using BLL.Mappers;
 using DAL.Interface.DTO;
 using DAL.Interface.Repository;
 
 namespace BLL.Services
 {
-    public class UserService : IUserService
+    public class UserService : IService<UserEntity>
     {
         private readonly IUnitOfWork _uow;
         private readonly IRepository<DalUser> _userRepository;
@@ -20,23 +20,18 @@ namespace BLL.Services
             _userRepository = repository;
         }
 
-        public IEnumerable<UserEntity> GetAllUserEntities()
+        public IEnumerable<UserEntity> Get(int n=0)
         {
-                return _userRepository.GetAll().Select(user => user.ToBllUser()); 
+            return _userRepository.Get(n).Select(user => user.ToBllUser());
         }
 
-        public IEnumerable<UserEntity> GetN(int n)
-        {
-            return _userRepository.GetN(n).Select(user => user.ToBllUser());
-        }
-
-        public void CreateUser(UserEntity user)
+        public void Add(UserEntity user)
         {
             _userRepository.Create(user.ToDalUser());
             _uow.Commit();
         }
 
-        public void DeleteUser(Guid id)
+        public void Remove(int id)
         {
             _userRepository.Delete(id);
             _uow.Commit();

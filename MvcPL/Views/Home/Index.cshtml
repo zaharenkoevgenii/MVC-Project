@@ -1,22 +1,24 @@
-﻿@model IEnumerable<string>
+﻿@model IEnumerable<MvcPL.Models.UserViewModel>
 @{
     ViewBag.Title = "The best file storage";
 }
 
 <center>
-    <h2>Лучшее файловое хранилище</h2>
+    <h2>The Best File Storage</h2>
     <table>
         <tr>
             <th>
-                Пять последних пользователей
+                Fast LoggedIn Users
             </th>
         </tr>
-
         @foreach (var item in Model)
         {
             <tr>
                 <td align="center">
-                    @Html.DisplayFor(modelItem => item)
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td align="center">
+                    @Html.ActionLink("delete","Delete", "Account", new { id = item.Id },null)
                 </td>
             </tr>
         }

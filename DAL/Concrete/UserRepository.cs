@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using DAL.Interface.DTO;
 using DAL.Interface.Repository;
+using DAL.Interfacies.DTO;
+using DAL.Mappers;
 using ORM;
 
 namespace DAL.Concrete
@@ -17,69 +19,49 @@ namespace DAL.Concrete
             _context = uow;
         }
 
-        public IEnumerable<DalUser> GetAll()
+        public IEnumerable<DalUser> Get(int n=0)
         {
-            throw new NotImplementedException();
-            //return _context.Set<Users>().Select(user => new DalUser
-            //            {
-            //                Id = user.UserId,
-            //                Name = user.UserName,
-            //            });
+            var x = _context.Set<Users>().ToList();
+            if (n != 0) x = _context.Set<Users>().Take(n).ToList();
+            return x.Select(user => new DalUser
+                        {
+                            Id = user.Id,
+                            Email = user.Email,
+                            Password = user.Password,
+                            CreationTime = user.CreationTime,
+                            Files = new List<DalFile>(),
+                            Profile = user.Profiles.ToDalProfile(),
+                            Roles = new List<DalRole>()
+                        });
         }
 
-        public IEnumerable<DalUser> GetN(int n)
+        public DalUser Search(System.Linq.Expressions.Expression<Func<DalUser, bool>> f)
         {
-            throw new NotImplementedException();
-            //return _context.Set<Users>()
-            //    .OrderByDescending(user => user.Memberships.LastLoginDate)
-            //    .Take(5)
-            //    .Select(user => new DalUser
-            //    {
-            //        Id = user.UserId,
-            //        Name = user.UserName
-            //    });
+            return _context.Set<Users>().Select(user => new DalUser
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Password = user.Password,
+                CreationTime = user.CreationTime
+            }).FirstOrDefault(f);
         }
 
-        public DalUser GetById(Guid key)
+        public void Create(DalUser user)
         {
-            throw new NotImplementedException();
-            //var ormuser = _context.Set<Users>().First(user => user.UserId == key);
-            //return new DalUser
-            //{
-            //    Id = ormuser.UserId,
-            //    Name = ormuser.UserName
-            //};
+            var u = new Users
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Password = user.Password,
+                CreationTime = user.CreationTime
+            };
+            _context.Set<Users>().Add(u);
         }
 
-        public DalUser GetByPredicate(System.Linq.Expressions.Expression<Func<DalUser, bool>> f)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
-            //var ormUser = _context.Set<Users>().Select(user => new DalUser
-            //{
-            //    Id = user.UserId,
-            //    Name = user.UserName
-            //}).FirstOrDefault(f);
-            //return ormUser;
-        }
-
-        public void Create(DalUser e)
-        {
-            throw new NotImplementedException();
-            //var user = new Users
-            //{
-            //    UserId = e.Id,
-            //    UserName = e.Name,
-            //};
-            //_context.Set<Users>().Add(user);
-        }
-
-        public void Delete(Guid id)
-        {
-            throw new NotImplementedException();
-            //var member = _context.Set<Memberships>().Single(m => m.UserId == id);
-            //_context.Set<Memberships>().Remove(member);
-            //var user = _context.Set<Users>().Single(o => o.UserId == id);
-            //_context.Set<Users>().Remove(user);
+            var user = _context.Set<Users>().Single(u => u.Id == id);
+            _context.Set<Users>().Remove(user);
         }
     }
 }

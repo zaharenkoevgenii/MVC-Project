@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityModel.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="Migrations\201505061519266_correctionGlobal.cs" />
     <Compile Include="Migrations\201505061519266_correctionGlobal.Designer.cs">
@@ -119,8 +120,39 @@
     <Compile Include="Migrations\201506210845024_changes1.Designer.cs">
       <DependentUpon>201506210845024_changes1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506211035175_removeVirtual.cs" />
+    <Compile Include="Migrations\201506211035175_removeVirtual.Designer.cs">
+      <DependentUpon>201506211035175_removeVirtual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506211036425_removeVirtualToList.cs" />
+    <Compile Include="Migrations\201506211036425_removeVirtualToList.Designer.cs">
+      <DependentUpon>201506211036425_removeVirtualToList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506211102280_removeVirtualToList1.cs" />
+    <Compile Include="Migrations\201506211102280_removeVirtualToList1.Designer.cs">
+      <DependentUpon>201506211102280_removeVirtualToList1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506211103184_removeVirtualToList2.cs" />
+    <Compile Include="Migrations\201506211103184_removeVirtualToList2.Designer.cs">
+      <DependentUpon>201506211103184_removeVirtualToList2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506211104354_removeVirtualToList3.cs" />
+    <Compile Include="Migrations\201506211104354_removeVirtualToList3.Designer.cs">
+      <DependentUpon>201506211104354_removeVirtualToList3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506211202097_removeVirtualToList4.cs" />
+    <Compile Include="Migrations\201506211202097_removeVirtualToList4.Designer.cs">
+      <DependentUpon>201506211202097_removeVirtualToList4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506221036481_lightCorrectionsinDB.cs" />
+    <Compile Include="Migrations\201506221036481_lightCorrectionsinDB.Designer.cs">
+      <DependentUpon>201506221036481_lightCorrectionsinDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506250653076_fileStoreinDB.cs" />
+    <Compile Include="Migrations\201506250653076_fileStoreinDB.Designer.cs">
+      <DependentUpon>201506250653076_fileStoreinDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="EntityModel.cs" />
     <Compile Include="Profiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roles.cs" />
@@ -187,6 +219,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506210845024_changes1.resx">
       <DependentUpon>201506210845024_changes1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506211035175_removeVirtual.resx">
+      <DependentUpon>201506211035175_removeVirtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506211036425_removeVirtualToList.resx">
+      <DependentUpon>201506211036425_removeVirtualToList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506211102280_removeVirtualToList1.resx">
+      <DependentUpon>201506211102280_removeVirtualToList1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506211103184_removeVirtualToList2.resx">
+      <DependentUpon>201506211103184_removeVirtualToList2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506211104354_removeVirtualToList3.resx">
+      <DependentUpon>201506211104354_removeVirtualToList3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506211202097_removeVirtualToList4.resx">
+      <DependentUpon>201506211202097_removeVirtualToList4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506221036481_lightCorrectionsinDB.resx">
+      <DependentUpon>201506221036481_lightCorrectionsinDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506250653076_fileStoreinDB.resx">
+      <DependentUpon>201506250653076_fileStoreinDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

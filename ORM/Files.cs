@@ -1,24 +1,28 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace ORM
 {
-    public class Files
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Files
     {
-        [Key]
         public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
-        [Required]
-        public bool Private { get; set; }
-        [Required]
-        public int Rating { get; set; }
-        [Required]
-        public DateTime CrationTime { get; set; }
 
-        public int UserRefId { get; set; }
-        [ForeignKey("UserRefId")]
-        public virtual Users User { get; set; }
+        public bool Private { get; set; }
+
+        public int Rating { get; set; }
+
+        public int UserId { get; set; }
+
+        public DateTime CreationTime { get; set; }
+
+        public byte[] File { get; set; }
+
+        public virtual Users Users { get; set; }
     }
 }

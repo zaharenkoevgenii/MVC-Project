@@ -22,13 +22,13 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.UserName)
+                            @Html.DisplayFor(modelItem => item.Email)
                         </td>
                         <td>
-                            @Html.ActionLink("Файлы", "ManageFiles", new { id = item.UserId })
+                            @Html.ActionLink("Файлы", "ManageFiles", new { id = item.Email })
                         </td>
                         <td>
-                            @Html.ActionLink("Удалить", "Delete", "Account", new { id = item.UserId },null)
+                            @Html.ActionLink("Удалить", "Delete", "Account", new { id = item.Email },null)
                         </td>
                     </tr>
                 }

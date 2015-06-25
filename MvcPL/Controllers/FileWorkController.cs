@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using BLL.Interface.Entities;
-using BLL.Interface.Services;
+using BLL.Interfacies.Services;
 using MvcPL.Filters;
 using MvcPL.Models;
 
@@ -14,11 +14,10 @@ namespace MvcPL.Controllers
     [HandleAllError]
     public class FileWorkController : Controller
     {
-        private readonly IFileService _fservice;
-        private readonly IUserService _uservice;
+        private readonly IService<UserEntity> _uservice;
+        private readonly IService<FileEntity> _fservice;
 
-
-        public FileWorkController(IFileService fservice,IUserService uservice)
+        public FileWorkController(IService<UserEntity> uservice, IService<FileEntity> fservice)
         {
             _fservice = fservice;
             _uservice = uservice;
@@ -27,15 +26,15 @@ namespace MvcPL.Controllers
         public ActionResult Index()
         {
             var id = GetUserIdByUserName(User.Identity.Name);
-            var data = _fservice.GetAllFileEntities()
-                .Where(file => file.OwnerId == id)
-                .OrderBy(f => f.Created)
+            var data = _fservice.Get()
+                .Where(file => file.UserRefId == id)
+                .OrderBy(f => f.CreationTime)
                 .Select(file => new FileViewModel
                 {
                     Id = file.Id.ToString(),
                     Name = file.Name,
-                    Created = file.Created,
-                    OwnerId = file.OwnerId.ToString()
+                    Created = file.CreationTime,
+                    OwnerId = file.UserRefId.ToString()
                 });
             return View(data);
         }
@@ -49,49 +48,49 @@ namespace MvcPL.Controllers
             file.SaveAs(Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileName));
             var bllFile = new FileEntity
             {
-                Id = Guid.NewGuid(),
+                Id = 0,
                 Name = fileName,
-                Created = DateTime.Now,
-                OwnerId = GetUserIdByUserName(User.Identity.Name)
+                CreationTime = DateTime.Now,
+                UserRefId = GetUserIdByUserName(User.Identity.Name)
             };
-            _fservice.CreateFile(bllFile);
+            _fservice.Add(bllFile);
             return PartialView("_FilePartialSimple", bllFile);
         }
 
-        public ActionResult Download(string id)
+        public ActionResult Download(int id)
         {
-            var filename = GetFileNameByFileId(Guid.Parse(id));
-            var path = Server.MapPath("~/Files/" + GetUserNameByFileId(Guid.Parse(id)) + "/" + filename);
+            var filename = GetFileNameByFileId(id);
+            var path = Server.MapPath("~/Files/" + GetUserNameByFileId(id) + "/" + filename);
             return File(path, "*/*", filename);
         }
 
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id)
         {
-            var username = GetUserNameByFileId(Guid.Parse(id));
-            System.IO.File.Delete(Server.MapPath("~/Files/" + username + "/" + GetFileNameByFileId(Guid.Parse(id))));
-            _fservice.DeleteFile(Guid.Parse(id));
+            var username = GetUserNameByFileId(id);
+            System.IO.File.Delete(Server.MapPath("~/Files/" + username + "/" + GetFileNameByFileId(id)));
+            _fservice.Remove(id);
             return username==User.Identity.Name ? RedirectToAction("Index") : RedirectToAction("ManageFiles", "Administration");
         }
 
 
-        private string GetUserNameByFileId(Guid fileId)
+        private string GetUserNameByFileId(int fileId)
         {
             return _uservice
-                        .GetAllUserEntities()
-                        .First(u => u.Id == _fservice.GetAllFileEntities()
-                            .First(f => f.Id == fileId).OwnerId)
-                            .UserName;
+                        .Get()
+                        .First(u => u.Id == _fservice.Get()
+                            .First(f => f.Id == fileId).UserRefId)
+                            .Email;
         }
-        private string GetFileNameByFileId(Guid fileId)
+        private string GetFileNameByFileId(int fileId)
         {
-            return _fservice.GetAllFileEntities().First(f => f.Id == fileId).Name;
+            return _fservice.Get().First(f => f.Id == fileId).Name;
         }
         private string FileNameRemake(string fileName)
         {
             var numb = 0;
-            while (_fservice.GetAllFileEntities()
-                .Where(f1 => f1.OwnerId == _uservice.GetAllUserEntities()
-                                                    .First(user => user.UserName == User.Identity.Name)
+            while (_fservice.Get()
+                .Where(f1 => f1.UserRefId == _uservice.Get()
+                                                    .First(user => user.Email == User.Identity.Name)
                                                     .Id)
                 .Count(f2 => f2.Name == fileName) != 0)
             {
@@ -106,9 +105,9 @@ namespace MvcPL.Controllers
             }
             return fileName;
         }
-        private Guid GetUserIdByUserName(string userName)
+        private int GetUserIdByUserName(string userName)
         {
-            return _uservice.GetAllUserEntities().First(user => user.UserName == userName).Id;
+            return _uservice.Get().First(user => user.Email == userName).Id;
         }
     }
 }
