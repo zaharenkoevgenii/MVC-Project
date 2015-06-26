@@ -21,10 +21,10 @@ namespace MvcPL.Providers
 
         public override bool IsUserInRole(string email, string roleName)
         {
-                var user = _uservice.Get().FirstOrDefault(u => u.Email == email);
-                if (user == null) return false;
-                var role = user.Roles.Find(r => r.Name == roleName);
-                return role != null;
+            var user = _uservice.Get().FirstOrDefault(u => u.Email == email);
+            if (user == null) return false;
+            var role = _uservice.Get().Select(u => u.Roles.Where(r=>r.Name== roleName)).FirstOrDefault();
+            return role != null;
         }
 
         public override string[] GetRolesForUser(string email)

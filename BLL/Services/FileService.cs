@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using BLL.Interface.Entities;
+using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using BLL.Mappers;
 using DAL.Interface.DTO;
@@ -36,6 +37,21 @@ namespace BLL.Services
         {
             _fileRepository.Delete(id);
             _uow.Commit();
+        }
+
+
+        public FileEntity Search(Expression<Func<FileEntity, bool>> f)
+        {
+            return _fileRepository.Get().Select(file => new FileEntity
+            {
+                Id = file.Id,
+                CreationTime = file.CreationTime,
+                File = file.File,
+                Name = file.Name,
+                Private = file.Private,
+                Rating = file.Rating,
+                UserId = file.UserId
+            }).FirstOrDefault(f);
         }
     }
 }

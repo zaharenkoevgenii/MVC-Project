@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using BLL.Interface.Entities;
+using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Filters;
 using MvcPL.Models;
@@ -63,9 +64,9 @@ namespace MvcPL.Controllers
                 {
                     Name = file.Name,
                     Id = file.Id.ToString(CultureInfo.InvariantCulture),
-                    OwnerId = file.UserRefId.ToString(CultureInfo.InvariantCulture),
+                    OwnerId = file.UserId.ToString(CultureInfo.InvariantCulture),
                     Created = file.CreationTime,
-                    OwnerName = _uservice.Get().First(user => user.Id == file.UserRefId).Email
+                    OwnerName = _uservice.Get().First(user => user.Id == file.UserId).Email
                 });
             if (!string.IsNullOrEmpty(tag))
             {
@@ -87,8 +88,8 @@ namespace MvcPL.Controllers
                 {
                     Name = file.Name,
                     Id = file.Id.ToString(CultureInfo.InvariantCulture),
-                    OwnerId = file.UserRefId.ToString(CultureInfo.InvariantCulture),
-                    OwnerName = _uservice.Get().First(user => user.Id == file.UserRefId).Email,
+                    OwnerId = file.UserId.ToString(CultureInfo.InvariantCulture),
+                    OwnerName = _uservice.Get().First(user => user.Id == file.UserId).Email,
                     Created = file.CreationTime
                 });
             if (id != null) data = data.Where(file => file.OwnerId == id);

@@ -17,24 +17,22 @@ namespace DAL.Concrete
         {
             _context = uow;
         }
-        public IEnumerable<DalRole> Get(int n = 0)
+        public IQueryable<DalRole> Get(int n = 0)
         {
             var x = _context.Set<Roles>().ToList();
             if (n != 0) x = _context.Set<Roles>().Take(n).ToList();
             return x.Select(role => new DalRole
             {
                 Id = role.Id,
-                Name = role.Name,
-                Users = role.Users.Select(u=>u.ToDalUser()).ToList()
-            });
+                Name = role.Name
+            }).AsQueryable();
         }
         public DalRole Search(System.Linq.Expressions.Expression<Func<DalRole, bool>> f)
         {
             return _context.Set<Roles>().Select(role => new DalRole
             {
                 Id = role.Id,
-                Name = role.Name,
-                Users = role.Users.Select(u=>u.ToDalUser()).ToList()
+                Name = role.Name
             }).FirstOrDefault(f);
         }
         public void Create(DalRole entity)
@@ -42,8 +40,7 @@ namespace DAL.Concrete
             var role = new Roles
             {
                 Id = entity.Id,
-                Name = entity.Name,
-                Users = entity.Users.Select(u=>u.ToOrmUser()).ToList()
+                Name = entity.Name
             };
             _context.Set<Roles>().Add(role);
         }

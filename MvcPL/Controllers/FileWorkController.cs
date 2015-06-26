@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using BLL.Interface.Entities;
+using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Filters;
 using MvcPL.Models;
@@ -25,16 +26,16 @@ namespace MvcPL.Controllers
 
         public ActionResult Index()
         {
-            var id = GetUserIdByUserName(User.Identity.Name);
+            var id = _uservice.Search(u => u.Email == User.Identity.Name).Id;
             var data = _fservice.Get()
-                .Where(file => file.UserRefId == id)
+                .Where(file => file.UserId == id)
                 .OrderBy(f => f.CreationTime)
                 .Select(file => new FileViewModel
                 {
                     Id = file.Id.ToString(),
                     Name = file.Name,
                     Created = file.CreationTime,
-                    OwnerId = file.UserRefId.ToString()
+                    OwnerId = file.UserId.ToString()
                 });
             return View(data);
         }
@@ -51,7 +52,7 @@ namespace MvcPL.Controllers
                 Id = 0,
                 Name = fileName,
                 CreationTime = DateTime.Now,
-                UserRefId = GetUserIdByUserName(User.Identity.Name)
+                UserId = GetUserIdByUserName(User.Identity.Name)
             };
             _fservice.Add(bllFile);
             return PartialView("_FilePartialSimple", bllFile);
@@ -78,7 +79,7 @@ namespace MvcPL.Controllers
             return _uservice
                         .Get()
                         .First(u => u.Id == _fservice.Get()
-                            .First(f => f.Id == fileId).UserRefId)
+                            .First(f => f.Id == fileId).UserId)
                             .Email;
         }
         private string GetFileNameByFileId(int fileId)
@@ -89,7 +90,7 @@ namespace MvcPL.Controllers
         {
             var numb = 0;
             while (_fservice.Get()
-                .Where(f1 => f1.UserRefId == _uservice.Get()
+                .Where(f1 => f1.UserId == _uservice.Get()
                                                     .First(user => user.Email == User.Identity.Name)
                                                     .Id)
                 .Count(f2 => f2.Name == fileName) != 0)

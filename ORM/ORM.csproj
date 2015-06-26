@@ -152,6 +152,10 @@
     <Compile Include="Migrations\201506250653076_fileStoreinDB.Designer.cs">
       <DependentUpon>201506250653076_fileStoreinDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506261637489_FixAgain.cs" />
+    <Compile Include="Migrations\201506261637489_FixAgain.Designer.cs">
+      <DependentUpon>201506261637489_FixAgain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -243,6 +247,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506250653076_fileStoreinDB.resx">
       <DependentUpon>201506250653076_fileStoreinDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506261637489_FixAgain.resx">
+      <DependentUpon>201506261637489_FixAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

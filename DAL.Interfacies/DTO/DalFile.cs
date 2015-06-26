@@ -10,6 +10,8 @@ namespace DAL.Interface.DTO
         public int Rating { get; set; }
         public DateTime CreationTime { get; set; }
         public byte[] File { get; set; }
-        public int UserRefId { get; set; }
+
+        public int UserId { get; set; }
+        public DalUser User { get; set; }
     }
 }

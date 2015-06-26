@@ -11,6 +11,7 @@ namespace DAL.Interfacies.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
         public List<DalUser> Users { get; set; }
     }
 }

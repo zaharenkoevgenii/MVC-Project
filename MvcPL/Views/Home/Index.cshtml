@@ -3,24 +3,17 @@
     ViewBag.Title = "The best file storage";
 }
 
-<center>
-    <h2>The Best File Storage</h2>
-    <table>
-        <tr>
-            <th>
-                Fast LoggedIn Users
-            </th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td align="center">
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td align="center">
-                    @Html.ActionLink("delete","Delete", "Account", new { id = item.Id },null)
-                </td>
-            </tr>
-        }
-    </table>
-</center>
+    <h1 align="center">@User.Identity.Name</h1>
+        <table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.ActionLink("delete", "Delete", "Account", new { id = item.Id }, null)
+                    </td>
+                </tr>
+            }
+        </table>

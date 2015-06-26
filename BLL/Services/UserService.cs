@@ -36,5 +36,17 @@ namespace BLL.Services
             _userRepository.Delete(id);
             _uow.Commit();
         }
+
+
+        public UserEntity Search(System.Linq.Expressions.Expression<Func<UserEntity, bool>> f)
+        {
+            return _userRepository.Get().Select(user => new UserEntity()
+            {
+                Id = user.Id,
+                CreationTime = user.CreationTime,
+                Email = user.Email,
+                Password = user.Password,
+            }).FirstOrDefault(f);
+        }
     }
 }

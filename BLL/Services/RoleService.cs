@@ -35,5 +35,15 @@ namespace BLL.Services
                 _roleRepository.Delete(id);
                 _uow.Commit();
             }
+
+
+            public RoleEntity Search(System.Linq.Expressions.Expression<System.Func<RoleEntity, bool>> f)
+            {
+                return _roleRepository.Get().Select(role => new RoleEntity
+                {
+                    Id = role.Id,
+                    Name = role.Name
+                }).FirstOrDefault(f);
+            }
         }
 }

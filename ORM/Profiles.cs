@@ -6,9 +6,9 @@ namespace ORM
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Profiles
+    public class Profiles
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key, ForeignKey("Users")]
         public int Id { get; set; }
 
         [Required]

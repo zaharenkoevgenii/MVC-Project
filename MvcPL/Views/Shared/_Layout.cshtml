@@ -6,45 +6,51 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <table cellspacing="10%" width="100%">
-        <tr>
-            <td width="15%">@Html.ActionLink("Main", "Index", "Home")</td>
-            <td width="15%">@Html.ActionLink("My Files", "Index", "FileWork")</td>
-            <td width="15%">
-            @*@if (User.IsInRole("admin"))
-                {
-                    @Html.ActionLink("Administration", "Index", "Administration")
-                }*@
-            </td>
-            <td width="35%"> </td>
-            
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <td width="15%">
-                        @Html.Label("Welcome: " + User.Identity.Name + " ")
-                    </td>
-                    <td width="5%">
-                        @Html.ActionLink("LogOff", "Logout", "Account")
-                    </td>
-                }
-                else
-                {
-                    <td width="10%">
-                        @Html.Label("Authorize-> ")
-                    </td>
-                    <td width="5%">
-                        @Html.ActionLink("LogIn", "Login", "Account")
-                    </td>
-                }
-                    
-        </tr>
-    </table>
-    <hr />
-    @RenderBody()
+    <div class="container" style="background: lightgrey">
+        <ul class="nav nav-pills">
+            <li>@Html.ActionLink("Main","Index","Home")</li>
+            <li>@Html.ActionLink("My page", "Index", "Profile")</li>
+            @if (User.Identity.Name == "")
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+            }
+            else
+            {
+                <li>@User.Identity.Name @Html.ActionLink("Logout", "LogOut", "Account")</li>
+            }
+        </ul>
+    </div>
+    <hr/>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2" style="background: lightgrey">
+                <ul class="nav nav-pills nav-stacked" id="mytabs">
+                    <li class="disabled"><a>CATEGORIES</a></li>
+                    <li>@Html.ActionLink("Top Rated", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Pictures", "Index", "Filework")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+        <script src="../../js/bootstrap.min.js"></script>
 </body>
 </html>

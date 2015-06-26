@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Interface.DTO;
+using DAL.Interface.Repository;
 using DAL.Interfacies.DTO;
 using ORM;
 
@@ -20,9 +21,9 @@ namespace DAL.Mappers
                     Email = userEntity.Email,
                     Password = userEntity.Password,
                     CreationTime = userEntity.CreationTime,
-                    Profiles = ToOrmProfile(userEntity.Profile),
-                    Roles = userEntity.Roles.Select(ToOrmRole).ToList(),
-                    Files = userEntity.Files.Select(ToOrmFile).ToList()
+                    Files = userEntity.Files.Select(f=>f.ToOrmFile()).ToList(),
+                    Profiles = userEntity.Profile.ToOrmProfile(),
+                    Roles = userEntity.Roles.Select(r=>r.ToOrmRole()).ToList()
                 };
             }
             public static DalUser ToDalUser(this Users ormUser)
@@ -34,9 +35,9 @@ namespace DAL.Mappers
                     Email = ormUser.Email,
                     Password = ormUser.Password,
                     CreationTime = ormUser.CreationTime,
-                    Profile = ToDalProfile(ormUser.Profiles),
-                    Roles = ormUser.Roles.Select(ToDalRole).ToList(),
-                    Files = ormUser.Files.Select(ToDalFile).ToList()
+                    Files = ormUser.Files.Select(f=>f.ToDalFile()).ToList(),
+                    Profile = ormUser.Profiles.ToDalProfile(),
+                    Roles = ormUser.Roles.Select(r => r.ToDalRole()).ToList()
                 };
             }
             public static DalFile ToDalFile(this Files fileEntity)
@@ -47,10 +48,10 @@ namespace DAL.Mappers
                     Id = fileEntity.Id,
                     Name = fileEntity.Name,
                     CreationTime = fileEntity.CreationTime,
-                    UserRefId = fileEntity.UserId,
                     Private = fileEntity.Private,
                     Rating = fileEntity.Rating,
-                    File = fileEntity.File
+                    File = fileEntity.File,
+                    UserId = fileEntity.UserId
                 };
             }
             public static Files ToOrmFile(this DalFile dalFile)
@@ -61,7 +62,7 @@ namespace DAL.Mappers
                     Id = dalFile.Id,
                     Name = dalFile.Name,
                     CreationTime = dalFile.CreationTime,
-                    UserId = dalFile.UserRefId,
+                    UserId = dalFile.UserId,
                     Private = dalFile.Private,
                     Rating = dalFile.Rating,
                     File = dalFile.File
@@ -76,8 +77,7 @@ namespace DAL.Mappers
                     Age = profile.Age,
                     FirstName = profile.FirstName,
                     LastName = profile.LastName,
-                    LastUpdateDate = profile.LastUpdateDate,
-                    User = ToDalUser(profile.Users)
+                    LastUpdateDate = profile.LastUpdateDate
                 };
             }
             public static Profiles ToOrmProfile(this DalProfile dalProfile)
@@ -90,7 +90,6 @@ namespace DAL.Mappers
                     FirstName = dalProfile.FirstName,
                     LastName = dalProfile.LastName,
                     LastUpdateDate = dalProfile.LastUpdateDate,
-                    Users = ToOrmUser(dalProfile.User)
                 };
             }
             public static DalRole ToDalRole(this Roles role)
@@ -99,8 +98,7 @@ namespace DAL.Mappers
                 return new DalRole
                 {
                     Id = role.Id,
-                    Name = role.Name,
-                    Users = role.Users.Select(ToDalUser).ToList()
+                    Name = role.Name
                 };
             }
             public static Roles ToOrmRole(this DalRole dalRole)
@@ -109,8 +107,7 @@ namespace DAL.Mappers
                 return new Roles
                 {
                     Id = dalRole.Id,
-                    Name = dalRole.Name,
-                    Users = dalRole.Users.Select(ToOrmUser).ToList()
+                    Name = dalRole.Name
                 };
             }
         }

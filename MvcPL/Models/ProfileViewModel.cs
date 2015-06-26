@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.Interface.DTO;
+using System.Web;
+using System.Web.Mvc;
 
-namespace DAL.Interfacies.DTO
+namespace MvcPL.Models
 {
-    public class DalProfile:IEntity
+    public class ProfileViewModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

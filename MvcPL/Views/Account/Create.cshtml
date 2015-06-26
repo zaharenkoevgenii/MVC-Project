@@ -14,29 +14,24 @@
 
         <fieldset>
             <div class="editor-label">
-                @Html.LabelFor(model => model.UserName)
+                <b>Email</b>
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.UserName)
+                @Html.EditorFor(model => model.Email)
             </div>
             <div class="editor-label">
-                @Html.LabelFor(model => model.Password)
+                <b>Password</b>
             </div>
             <div class="editor-field">
                 @Html.EditorFor(model => model.Password)
             </div>
             <div class="editor-label">
-                @Html.LabelFor(model => model.ConfirmPassword)
+                <b>Confirm password</b>
             </div>
             <div class="editor-field">
                 @Html.EditorFor(model => model.ConfirmPassword)
             </div>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Email)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Email)
-            </div>
+
             <div class="editor-label">
                 @Html.Label("Enter captcha")
             </div>
@@ -50,13 +45,11 @@
                 @Html.ValidationMessageFor(model => model.Captcha)
             </div>
             <p>
-                <input type="submit" value="Create" />
+                <br />
+                <input type="submit" class="btn btn-primary .btn-success" value="Confirm">
             </p>
         </fieldset>
     }
-    <div>
-        @Html.ActionLink("Return to main", "Index", "Home")
-    </div>
 </center>
 
 @section Scripts {

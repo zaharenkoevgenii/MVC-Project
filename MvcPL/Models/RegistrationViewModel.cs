@@ -5,9 +5,6 @@ namespace MvcPL.Models
 {
     public class RegistrationViewModel
     {
-        [Required(ErrorMessage = "Поле обязательно для заполнения")]
-        [Display(Name = "Логин")]
-        public string UserName { get; set; }
 
         [Display(Name = "Введите email")]
         [Required(ErrorMessage = "Поле обязательно для заполнения")]

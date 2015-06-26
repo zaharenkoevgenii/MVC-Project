@@ -2,7 +2,6 @@
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
-using System.IO;
 using System.Web.Mvc;
 using BLL.Interface.Entities;
 using BLL.Interfacies.Services;
@@ -18,12 +17,10 @@ namespace MvcPL.Controllers
     public class AccountController : Controller
     {
         private readonly IService<UserEntity> _uservice;
-        private readonly IService<FileEntity> _fservice;
 
-        public AccountController(IService<UserEntity> uservice, IService<FileEntity> fservice)
+        public AccountController(IService<UserEntity> uservice)
         {
             _uservice = uservice;
-            _fservice = fservice;
         }
         [HttpGet]
         public ActionResult Login()
@@ -78,12 +75,13 @@ namespace MvcPL.Controllers
             if (membershipUser != null)
             {
                 FormsAuthentication.SetAuthCookie(user.Email, false);
-                Login(new LogInViewModel()
+                Login(new LogInViewModel
                 {
                     Email = user.Email,
                     Password = user.Password,
                     RememberMe = false
                 });
+                RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Ошибка при регистрации");
             return View(user);

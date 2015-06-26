@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using DAL.Interface.DTO;
 using DAL.Interface.Repository;
@@ -19,7 +20,7 @@ namespace DAL.Concrete
             _context = uow;
         }
 
-        public IEnumerable<DalUser> Get(int n=0)
+        public IQueryable<DalUser> Get(int n=0)
         {
             var x = _context.Set<Users>().ToList();
             if (n != 0) x = _context.Set<Users>().Take(n).ToList();
@@ -29,21 +30,24 @@ namespace DAL.Concrete
                             Email = user.Email,
                             Password = user.Password,
                             CreationTime = user.CreationTime,
-                            Files = new List<DalFile>(),
-                            Profile = user.Profiles.ToDalProfile(),
-                            Roles = new List<DalRole>()
-                        });
+                            Files = user.Files.Select(f=>f.ToDalFile()).ToList(),
+                            Roles = user.Roles.Select(r=>r.ToDalRole()).ToList(),
+                            Profile = user.Profiles.ToDalProfile()
+                        }).AsQueryable();
         }
 
-        public DalUser Search(System.Linq.Expressions.Expression<Func<DalUser, bool>> f)
+        public DalUser Search(System.Linq.Expressions.Expression<Func<DalUser, bool>> func)
         {
             return _context.Set<Users>().Select(user => new DalUser
             {
                 Id = user.Id,
                 Email = user.Email,
                 Password = user.Password,
-                CreationTime = user.CreationTime
-            }).FirstOrDefault(f);
+                CreationTime = user.CreationTime,
+                Files = user.Files.Select(f => f.ToDalFile()).ToList(),
+                Roles = user.Roles.Select(r => r.ToDalRole()).ToList(),
+                Profile = user.Profiles.ToDalProfile()
+            }).FirstOrDefault(func);
         }
 
         public void Create(DalUser user)
@@ -53,9 +57,12 @@ namespace DAL.Concrete
                 Id = user.Id,
                 Email = user.Email,
                 Password = user.Password,
-                CreationTime = user.CreationTime
+                CreationTime = user.CreationTime,
+                Profiles = user.Profile.ToOrmProfile(),
+                Files = user.Files.Select(f=>f.ToOrmFile()).ToList(),
+                Roles = user.Roles.Select(r=>r.ToOrmRole()).ToList()
             };
-            _context.Set<Users>().Add(u);
+            _context.Set<Users>().AddOrUpdate(u);
         }
 
         public void Delete(int id)

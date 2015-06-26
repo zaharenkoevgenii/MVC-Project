@@ -26,7 +26,7 @@ namespace ORM
 
             modelBuilder.Entity<Users>()
                 .HasMany(e => e.Files)
-                .WithRequired(e => e.Users)
+                .WithRequired(e => e.User)
                 .HasForeignKey(e => e.UserId);
 
             modelBuilder.Entity<Users>()

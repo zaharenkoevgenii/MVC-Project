@@ -10,7 +10,8 @@ namespace BLL.Interface.Entities
         public int Rating { get; set; }
         public bool Private { get; set; }
         public DateTime CreationTime { get; set; }
-        public int UserRefId { get; set; }
         public byte[] File { get; set; }
+
+        public int UserId { get; set; }
     }
 }

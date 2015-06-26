@@ -37,16 +37,16 @@ namespace MvcPL.Providers
             var profile = user.Profile;
             if (profile != null)
             {
-                foreach (var spv in from SettingsProperty prop in collection select new SettingsPropertyValue(prop)
-                {PropertyValue = profile.GetType().GetProperty(prop.Name).GetValue(profile, null)})
+                foreach (var spv in from SettingsProperty prop in collection
+                                    select new SettingsPropertyValue(prop) { PropertyValue = profile.GetType().GetProperty(prop.Name).GetValue(profile, null) })
                 {
                     result.Add(spv);
                 }
             }
             else
             {
-                foreach (var svp in from SettingsProperty prop in collection select new SettingsPropertyValue(prop) 
-                { PropertyValue = null })
+                foreach (var svp in from SettingsProperty prop in collection
+                                    select new SettingsPropertyValue(prop) { PropertyValue = null })
                 {
                     result.Add(svp);
                 }
@@ -79,7 +79,7 @@ namespace MvcPL.Providers
                     profile.GetType().GetProperty(val.Property.Name).SetValue(profile, val.PropertyValue);
                 }
                 profile.LastUpdateDate = DateTime.Now;
-                profile.User = user;
+                profile.Id = user.Id;
                 _pservice.Add(profile);
             }
         }

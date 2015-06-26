@@ -1,0 +1,14 @@
+﻿@model MvcPL.Models.ProfileViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Your Page</h2>
+<br/>
+@Model.FirstName
+<br/>
+@Model.LastName
+<br/>
+@Model.Age
+<br/>
+@Html.ActionLink("Change","FillProfile","Profile")

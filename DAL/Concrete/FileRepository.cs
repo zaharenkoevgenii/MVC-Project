@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using DAL.Interface.DTO;
@@ -18,7 +19,7 @@ namespace DAL.Concrete
             _context = uow;
         }
 
-        public IEnumerable<DalFile> Get(int n=0)
+        public IQueryable<DalFile> Get(int n = 0)
         {
             var x = _context.Set<Files>().ToList();
             if (n != 0) x = _context.Set<Files>().Take(n).ToList();
@@ -29,9 +30,9 @@ namespace DAL.Concrete
                 Private = file.Private,
                 CreationTime = file.CreationTime,
                 Rating = file.Rating,
-                UserRefId = file.UserId,
+                UserId = file.UserId,
                 File = file.File
-            });
+            }).AsQueryable();
         }
 
         public DalFile Search(System.Linq.Expressions.Expression<Func<DalFile, bool>> f)
@@ -43,7 +44,7 @@ namespace DAL.Concrete
                 Private = file.Private,
                 CreationTime = file.CreationTime,
                 Rating = file.Rating,
-                UserRefId = file.UserId,
+                UserId = file.UserId,
                 File = file.File
             }).FirstOrDefault(f);
         }
@@ -57,10 +58,10 @@ namespace DAL.Concrete
                 Private = file.Private,
                 CreationTime = file.CreationTime,
                 Rating = file.Rating,
-                UserId = file.UserRefId,
+                UserId = file.UserId,
                 File = file.File
             };
-            _context.Set<Files>().Add(f);
+            _context.Set<Files>().AddOrUpdate(f);
         }
 
         public void Delete(int id)

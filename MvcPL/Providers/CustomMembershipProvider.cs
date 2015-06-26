@@ -8,6 +8,7 @@ using System.Web.Providers.Entities;
 using System.Web.Security;
 using BLL.Interface.Entities;
 using System.Web.Helpers;
+using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using DependencyResolver;
 using MvcPL.Infrastructura;
