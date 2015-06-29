@@ -41,6 +41,12 @@ namespace MvcPL.Providers
                 {
                     user.Roles.Add(role);
                 }
+            if(user.Email=="admin@admin.adm")
+            role = rservice.Get().FirstOrDefault(r => r.Name == "admin");
+            if (role != null && role.Name=="admin")
+            {
+                user.Roles.Add(role);
+            }
             uservice.Add(user);
             membershipUser = GetUser(email, false);
             return membershipUser;

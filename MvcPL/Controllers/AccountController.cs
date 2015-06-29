@@ -81,7 +81,7 @@ namespace MvcPL.Controllers
                     Password = user.Password,
                     RememberMe = false
                 });
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Ошибка при регистрации");
             return View(user);
@@ -91,8 +91,7 @@ namespace MvcPL.Controllers
         public ActionResult Delete(int id)
         {
             var username = _uservice.Get().First(u => u.Id == id).Email;
-            if (username == User.Identity.Name) FormsAuthentication.SignOut();
-            _uservice.Remove(id);
+            if (username != User.Identity.Name) _uservice.Remove(id);
             return RedirectToAction("Index","Administration");
         }
 

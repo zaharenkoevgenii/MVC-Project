@@ -1,9 +1,10 @@
-﻿@model IEnumerable<MvcPL.Models.UserViewModel>
+﻿@using MvcPL.Providers
+@model IEnumerable<MvcPL.Models.UserViewModel>
 @{
     ViewBag.Title = "The best file storage";
 }
 
-    <h1 align="center">@User.Identity.Name</h1>
+    <h1 align="center">The best file storage</h1>
         <table>
             @foreach (var item in Model)
             {
@@ -11,9 +12,15 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
-                    <td>
-                        @Html.ActionLink("delete", "Delete", "Account", new { id = item.Id }, null)
-                    </td>
+                    @if (Roles.Provider.IsUserInRole(User.Identity.Name,"admin"))
+                    {
+                        if (!item.Roles.Select(r => r.Name).Contains("admin"))
+                         {
+                             <td>
+                                 @Html.ActionLink("delete", "Delete", "Account", new {id = item.Id}, null)
+                             </td>
+                         }
+                    }
                 </tr>
             }
         </table>

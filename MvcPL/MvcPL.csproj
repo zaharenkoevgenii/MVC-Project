@@ -172,6 +172,8 @@
     <Content Include="App_Data\RepAndUowDemo_log.ldf">
       <DependentUpon>RepAndUowDemo.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\Icons\doc.png" />
+    <Content Include="Content\Icons\msc.jpg" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -279,6 +281,7 @@
     <Content Include="Views\Shared\_FilePartialSimple.cshtml" />
     <Content Include="Views\Profile\FillProfile.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Administration\Approve.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

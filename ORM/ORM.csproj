@@ -156,6 +156,14 @@
     <Compile Include="Migrations\201506261637489_FixAgain.Designer.cs">
       <DependentUpon>201506261637489_FixAgain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506280655313_fileContentTypeAdd.cs" />
+    <Compile Include="Migrations\201506280655313_fileContentTypeAdd.Designer.cs">
+      <DependentUpon>201506280655313_fileContentTypeAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506280834140_AddApproveFieldToFiles.cs" />
+    <Compile Include="Migrations\201506280834140_AddApproveFieldToFiles.Designer.cs">
+      <DependentUpon>201506280834140_AddApproveFieldToFiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -250,6 +258,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506261637489_FixAgain.resx">
       <DependentUpon>201506261637489_FixAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506280655313_fileContentTypeAdd.resx">
+      <DependentUpon>201506280655313_fileContentTypeAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506280834140_AddApproveFieldToFiles.resx">
+      <DependentUpon>201506280834140_AddApproveFieldToFiles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

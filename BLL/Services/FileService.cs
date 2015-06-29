@@ -50,7 +50,9 @@ namespace BLL.Services
                 Name = file.Name,
                 Private = file.Private,
                 Rating = file.Rating,
-                UserId = file.UserId
+                UserId = file.UserId,
+                ContentType = file.ContentType,
+                Approved = file.Approved
             }).FirstOrDefault(f);
         }
     }

@@ -32,10 +32,12 @@ namespace MvcPL.Controllers
                 .OrderBy(f => f.CreationTime)
                 .Select(file => new FileViewModel
                 {
-                    Id = file.Id.ToString(),
+                    Id = file.Id,
                     Name = file.Name,
                     Created = file.CreationTime,
-                    OwnerId = file.UserId.ToString()
+                    OwnerId = file.UserId,
+                    Private = file.Private,
+                    Rating = file.Rating
                 });
             return View(data);
         }
@@ -45,50 +47,50 @@ namespace MvcPL.Controllers
             var file = Request.Files["fileInput"];
             if (file == null || file.ContentLength <= 0 || string.IsNullOrEmpty(file.FileName)) return null;
             var fileName = FileNameRemake(file.FileName);
-            Directory.CreateDirectory(Server.MapPath("~/Files/" + User.Identity.Name));
-            file.SaveAs(Server.MapPath("~/Files/" + User.Identity.Name + "/" + fileName));
-            var bllFile = new FileEntity
-            {
-                Id = 0,
-                Name = fileName,
-                CreationTime = DateTime.Now,
-                UserId = GetUserIdByUserName(User.Identity.Name)
-            };
+            var binaryReader = new BinaryReader(file.InputStream);
+                var bllFile = new FileEntity
+                {
+                    Name = fileName,
+                    CreationTime = DateTime.Now,
+                    UserId = _uservice.Get().First(u=>u.Email==User.Identity.Name).Id,
+                    File =binaryReader.ReadBytes(file.ContentLength),
+                    Private = true,
+                    Rating = 0,
+                    ContentType = file.ContentType,
+                    Approved = true
+                };
+            binaryReader.Dispose();
             _fservice.Add(bllFile);
+            bllFile = _fservice.Get().First(f => f.Name == fileName);
             return PartialView("_FilePartialSimple", bllFile);
         }
 
         public ActionResult Download(int id)
         {
-            var filename = GetFileNameByFileId(id);
-            var path = Server.MapPath("~/Files/" + GetUserNameByFileId(id) + "/" + filename);
-            return File(path, "*/*", filename);
+            var file = _fservice.Get().FirstOrDefault(f => f.Id == id);
+            if (file == null) return RedirectToAction("Index", "Profile");
+            var rFile = new FileContentResult(file.File, file.ContentType) {FileDownloadName = file.Name};
+            return rFile;
         }
 
         public ActionResult Delete(int id)
         {
-            var username = GetUserNameByFileId(id);
-            System.IO.File.Delete(Server.MapPath("~/Files/" + username + "/" + GetFileNameByFileId(id)));
+            var username = _uservice.Get().First(u => u.Id == _fservice.Get().First(f => f.Id == id).UserId).Email;
             _fservice.Remove(id);
-            return username==User.Identity.Name ? RedirectToAction("Index") : RedirectToAction("ManageFiles", "Administration");
+            return username == User.Identity.Name ? RedirectToAction("Index", "Profile") : RedirectToAction("Approve", "Administration");
         }
 
-
-        private string GetUserNameByFileId(int fileId)
-        {
-            return _uservice
-                        .Get()
-                        .First(u => u.Id == _fservice.Get()
-                            .First(f => f.Id == fileId).UserId)
-                            .Email;
-        }
-        private string GetFileNameByFileId(int fileId)
-        {
-            return _fservice.Get().First(f => f.Id == fileId).Name;
-        }
         private string FileNameRemake(string fileName)
         {
             var numb = 0;
+            var parts = fileName.Split('.');
+            if (parts[0].Length > 30)
+                parts[0] = parts[0].Substring(0, 25) + "..." + parts[0].Substring(parts[0].Length - 2, 2);
+            fileName = parts[0];
+            for (int i = 1; i < parts.Length; i++)
+            {
+                fileName += "." + parts[i];
+            }
             while (_fservice.Get()
                 .Where(f1 => f1.UserId == _uservice.Get()
                                                     .First(user => user.Email == User.Identity.Name)
@@ -96,19 +98,22 @@ namespace MvcPL.Controllers
                 .Count(f2 => f2.Name == fileName) != 0)
             {
                 numb++;
-                var parts = fileName.Split('.');
-                if (numb > 1) parts[0] = parts[0].Substring(0, parts[0].Length - 2 - numb.ToString(CultureInfo.InvariantCulture).Length);
-                fileName = parts[0] + "(" + numb + ").";
+                fileName = parts[0] + "(" + numb + ")";
                 for (int i = 1; i < parts.Length; i++)
                 {
-                    fileName += parts[i];
+                    fileName += "."+parts[i];
                 }
             }
             return fileName;
         }
-        private int GetUserIdByUserName(string userName)
+
+        public ActionResult Privacy(int id)
         {
-            return _uservice.Get().First(user => user.Email == userName).Id;
+            var file = _fservice.Get().First(f => f.Id == id);
+            file.Private = !file.Private;
+            if(!file.Private) file.Approved = false;
+            _fservice.Add(file);
+            return RedirectToAction("Index", "Profile");
         }
     }
 }

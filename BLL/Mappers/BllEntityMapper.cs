@@ -48,7 +48,9 @@ namespace BLL.Mappers
                 UserId = fileEntity.UserId,
                 Private = fileEntity.Private,
                 Rating = fileEntity.Rating,
-                File = fileEntity.File
+                File = fileEntity.File,
+                ContentType = fileEntity.ContentType,
+                Approved = fileEntity.Approved
             };
         }
         public static FileEntity ToBllFile(this DalFile dalFile)
@@ -62,7 +64,9 @@ namespace BLL.Mappers
                 UserId = dalFile.UserId,
                 Private = dalFile.Private,
                 Rating = dalFile.Rating,
-                File= dalFile.File
+                File= dalFile.File,
+                ContentType = dalFile.ContentType,
+                Approved = dalFile.Approved
             };
         }
 

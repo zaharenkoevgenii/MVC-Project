@@ -1,14 +1,85 @@
-﻿@model MvcPL.Models.ProfileViewModel
+﻿@using System.Collections
+@using MvcPL.Providers
+@model MvcPL.Models.UserViewModel
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Your Page</h2>
-<br/>
-@Model.FirstName
-<br/>
-@Model.LastName
-<br/>
-@Model.Age
-<br/>
-@Html.ActionLink("Change","FillProfile","Profile")
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3" align="center">
+            <h3>Profile information</h3>
+            <ul class="nav nav-pills nav-stacked" id="mytabs">
+                <li>Name: @Model.Profile.FirstName</li>
+                <li>Surname: @Model.Profile.LastName</li>
+                <li>Age: @Model.Profile.Age</li>
+                <li>@Html.ActionLink("Change profile", "FillProfile", "Profile")</li>
+            </ul>
+            <br/>
+            <label class="btn .btn-sm btn-block .disabled" style="background: lightgray">Administration Panel</label>
+            @if (Roles.Provider.IsUserInRole(User.Identity.Name, "admin"))
+            {
+                <a href="/Administration/Approve" class="btn .btn-sm btn-block btn-default">Approve files</a>
+                <a href="/Administration/FileManage" class="btn .btn-sm btn-block btn-default">Manage files</a>
+                <a href="/Administration/UserManage" class="btn .btn-sm btn-block btn-default">Manage users</a> 
+            }
+        </div>
+        <div class="col-md-9" align="center">
+            <h3>Manage files</h3>
+            <div>
+                @using (Ajax.BeginForm("Upload", "Filework",
+                    new AjaxOptions { UpdateTargetId = "searchresults", InsertionMode = InsertionMode.InsertAfter }))
+                {
+                    <input id="fileInput" name="fileInput" type="file" class="btn .btn-sm btn-default" style="background-color: lightgrey" />
+                    <input type="button" value="Upload file" id="btnFileUpload" class="btn .btn-sm btn-success" />
+                }
+            </div>
+            <table id="entries" class="table-responsive" width="60%">
+                <tr>
+                    <td width ="8%"><center><b> File name </b></center></td>
+                    <td width="2%"><center><b> Private </b></center></td>
+                    <td width="2%"><center><b> Rating </b></center></td>
+                    <td width="3%"><center><b> Delete </b></center></td>
+                    <td width="3%"><center><b> Download </b></center></td>
+                </tr>
+                @foreach (var item in Model.Files)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        @if (item.Approved)
+                        {
+                            <td><center>@Html.ActionLink(item.Private.ToString(), "Privacy", "FileWork", new {id = item.Id}, null)</center></td>
+                        }
+                        else
+                        {
+                            <td><center>@item.Private.ToString()</center></td>
+                        }
+                        <td><center>@Html.DisplayFor(modelItem => item.Rating)</center></td>
+                        <td><center>@Html.ActionLink("Delete", "Delete", "Filework", new { id = item.Id }, null)</center></td>
+                        <td><center>@Html.ActionLink("Download", "Download", "Filework", new { id = item.Id }, null)</center></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/scripts/jquery-1.10.2.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+    <script type="text/javascript">
+        $("#btnFileUpload").click(function() {
+            var formData = new FormData();
+            var file = document.getElementById("fileInput").files[0];
+            var xhr = new XMLHttpRequest();
+            xhr.open("post", "http://localhost:9026/FileWork/Upload", true);
+            formData.append("fileInput", file);
+            xhr.send(formData);
+            xhr.onreadystatechange=function() {
+                if (xhr.readyState == 4) {
+                    $('#entries').append(xhr.responseText);
+                }
+            }
+        });
+    </script>
+}

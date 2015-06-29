@@ -7,10 +7,13 @@ using System.Web.Mvc;
 using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
+using MvcPL.Filters;
 using MvcPL.Models;
 
 namespace MvcPL.Controllers
 {
+    [Authorize(Roles = "user")]
+    [HandleAllError]
     public class ProfileController : Controller
     {
         private readonly IService<UserEntity> _uservice;
@@ -23,18 +26,38 @@ namespace MvcPL.Controllers
         public ActionResult Index()
         {
             var user = _uservice.Get().First(u => u.Email == User.Identity.Name);
-            if (user.Profile == null)
-                return View(new ProfileViewModel
-                {
-                    Age = 0,
-                    FirstName = "Noname",
-                    LastName = "Noname"
-                });
-            return View(new ProfileViewModel
+            if (user.Profile != null)
             {
-                Age=user.Profile.Age,
-                FirstName = user.Profile.FirstName,
-                LastName = user.Profile.LastName,
+                user.Profile = new ProfileEntity
+                {
+                    Age = user.Profile.Age,
+                    FirstName = user.Profile.FirstName,
+                    LastName = user.Profile.LastName,
+                    LastUpdateDate = user.Profile.LastUpdateDate
+                };
+                return View(new UserViewModel
+                {
+                    Email = user.Email,
+                    Files = user.Files,
+                    Id = user.Id,
+                    Profile = user.Profile,
+                    Roles = user.Roles
+                });
+            }
+            user.Profile = new ProfileEntity
+            {
+                Age = 0,
+                FirstName = "Noname",
+                LastName = "Noname",
+                LastUpdateDate = DateTime.Now
+            };
+            return View(new UserViewModel
+            {
+                Email = user.Email,
+                Files = user.Files,
+                Id = user.Id,
+                Profile = user.Profile,
+                Roles = user.Roles
             });
         }
         [HttpGet]

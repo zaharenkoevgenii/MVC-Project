@@ -31,7 +31,9 @@ namespace DAL.Concrete
                 CreationTime = file.CreationTime,
                 Rating = file.Rating,
                 UserId = file.UserId,
-                File = file.File
+                File = file.File,
+                ContentType = file.ContentType,
+                Approved = file.Approved
             }).AsQueryable();
         }
 
@@ -45,7 +47,9 @@ namespace DAL.Concrete
                 CreationTime = file.CreationTime,
                 Rating = file.Rating,
                 UserId = file.UserId,
-                File = file.File
+                File = file.File,
+                ContentType = file.ContentType,
+                Approved = file.Approved
             }).FirstOrDefault(f);
         }
 
@@ -59,7 +63,9 @@ namespace DAL.Concrete
                 CreationTime = file.CreationTime,
                 Rating = file.Rating,
                 UserId = file.UserId,
-                File = file.File
+                File = file.File,
+                ContentType = file.ContentType,
+                Approved = file.Approved
             };
             _context.Set<Files>().AddOrUpdate(f);
         }

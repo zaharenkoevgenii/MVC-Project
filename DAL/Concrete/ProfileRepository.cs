@@ -55,7 +55,7 @@ namespace DAL.Concrete
                 LastUpdateDate = entity.LastUpdateDate,
                 Users = _context.Set<Users>().First(u=>u.Id==entity.Id)
             };
-            _context.Set<Profiles>().Add(profile);
+            _context.Set<Profiles>().AddOrUpdate(profile);
         }
         public void Delete(int id)
         {

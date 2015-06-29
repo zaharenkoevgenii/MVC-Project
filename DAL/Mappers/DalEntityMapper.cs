@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +52,9 @@ namespace DAL.Mappers
                     Private = fileEntity.Private,
                     Rating = fileEntity.Rating,
                     File = fileEntity.File,
-                    UserId = fileEntity.UserId
+                    ContentType = fileEntity.ContentType,
+                    UserId = fileEntity.UserId,
+                    Approved = fileEntity.Approved
                 };
             }
             public static Files ToOrmFile(this DalFile dalFile)
@@ -65,7 +68,9 @@ namespace DAL.Mappers
                     UserId = dalFile.UserId,
                     Private = dalFile.Private,
                     Rating = dalFile.Rating,
-                    File = dalFile.File
+                    File = dalFile.File,
+                    ContentType = dalFile.ContentType,
+                    Approved = dalFile.Approved
                 };
             }
             public static DalProfile ToDalProfile(this Profiles profile)

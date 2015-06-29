@@ -12,7 +12,11 @@ namespace ORM
         [Required]
         public string Name { get; set; }
 
+        public string ContentType { get; set; }
+
         public bool Private { get; set; }
+
+        public bool Approved { get; set; }
 
         public int Rating { get; set; }
 

@@ -5,32 +5,31 @@ using System.Web.Security;
 using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
+using DependencyResolver;
+using Ninject;
 
 namespace MvcPL.Providers
 {
     public class CustomRoleProvider : RoleProvider
     {
-        private readonly IService<UserEntity> _uservice;
-        private readonly IService<RoleEntity> _rservice;
-
-        public CustomRoleProvider(IService<UserEntity> uservice, IService<RoleEntity> rservice)
-        {
-            _uservice = uservice;
-            _rservice = rservice;
-        }
+        private IKernel _kernel;
 
         public override bool IsUserInRole(string email, string roleName)
         {
-            var user = _uservice.Get().FirstOrDefault(u => u.Email == email);
+            _kernel = new StandardKernel(new RevolverModule());
+            var uservice = _kernel.Get<IService<UserEntity>>();
+            var user = uservice.Get().FirstOrDefault(u => u.Email == email);
             if (user == null) return false;
-            var role = _uservice.Get().Select(u => u.Roles.Where(r=>r.Name== roleName)).FirstOrDefault();
+            var role = uservice.Get().Select(u => u.Roles.Where(r=>r.Name== roleName)).FirstOrDefault();
             return role != null;
         }
 
         public override string[] GetRolesForUser(string email)
         {
+            _kernel = new StandardKernel(new RevolverModule());
+            var uservice = _kernel.Get<IService<UserEntity>>();
                 var roles = new List<string>();
-                var user = _uservice.Get().FirstOrDefault(u => u.Email == email);
+                var user = uservice.Get().FirstOrDefault(u => u.Email == email);
                 if (user == null) return roles.ToArray();
                 if (user.Roles == null) return roles.ToArray();
                 roles.AddRange(user.Roles.Select(role => role.Name));
@@ -39,7 +38,9 @@ namespace MvcPL.Providers
 
         public override void CreateRole(string roleName)
         {
-            _rservice.Add(new RoleEntity{Name = roleName});
+            _kernel = new StandardKernel(new RevolverModule());
+            var rservice = _kernel.Get<IService<RoleEntity>>();
+            rservice.Add(new RoleEntity{Name = roleName});
         }
 
         #region Stabs

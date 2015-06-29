@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using DAL.Interface.Repository;
 using DAL.Interfacies.DTO;
@@ -42,7 +43,7 @@ namespace DAL.Concrete
                 Id = entity.Id,
                 Name = entity.Name
             };
-            _context.Set<Roles>().Add(role);
+            _context.Set<Roles>().AddOrUpdate(role);
         }
         public void Delete(int id)
         {
