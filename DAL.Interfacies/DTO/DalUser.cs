@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime;
-using DAL.Interfacies.DTO;
 
-namespace DAL.Interface.DTO
+namespace DAL.Interfacies.DTO
 {
     public class DalUser : IEntity
     {

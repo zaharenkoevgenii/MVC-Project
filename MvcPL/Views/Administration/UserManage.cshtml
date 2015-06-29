@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BLL.Interfacies.Entities.UserEntity>
+
+@{
+    ViewBag.Title = "UserManage";
+}
+<style>
+    li {
+        list-style-type: none; /* Убираем маркеры */
+    }
+
+    ul {
+        margin-left: 0; /* Отступ слева в браузере IE и Opera */
+        padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
+    }
+</style>
+<div align="center" class="panel-group">
+    <h2>User Manage Page</h2>
+    <ul class="thumbnail">
+        @foreach (var item in Model)
+        {
+            <li class="col-md-4">
+                <div class="thumbnail">
+                        <img src="~/Content/Icons/usr.png" alt="" class=".img-thumbnail" width="64" height="64">
+                    <h4>@item.Email</h4>
+                    <a href="/Administration/FileManage/@item.Id" class="btn .btn-sm btn-default"> Manage His Files </a>
+                    <a href="/Account/Delete/@item.Id" class="btn .btn-sm btn-default"> Delete User </a>
+                </div>
+            </li>
+        }
+    </ul>
+
+</div>

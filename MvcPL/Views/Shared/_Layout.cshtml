@@ -12,14 +12,14 @@
     <div class="container" style="background: lightgrey">
         <ul class="nav nav-pills">
             <li>@Html.ActionLink("Main","Index","Home")</li>
-            <li>@Html.ActionLink("My page", "Index", "Profile")</li>
             @if (User.Identity.Name == "")
             {
                 <li>@Html.ActionLink("Login", "Login", "Account")</li>
             }
             else
             {
-                <li>@User.Identity.Name @Html.ActionLink("Logout", "LogOut", "Account")</li>
+                <li>@Html.ActionLink(@User.Identity.Name,"index","Profile")</li>
+                <li>@Html.ActionLink("Logout", "LogOut", "Account")</li>
             }
         </ul>
     </div>
@@ -29,17 +29,17 @@
             <div class="col-md-2" style="background: lightgrey">
                 <ul class="nav nav-pills nav-stacked" id="mytabs">
                     <li class="disabled"><a>CATEGORIES</a></li>
-                    <li>@Html.ActionLink("Top Rated", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Pictures", "Index", "Filework")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
-                    <li>@Html.ActionLink("Documents", "Index", "FileWork")</li>
+                    <li>@Html.ActionLink("Top Rated", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Pictures", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
+                    <li>@Html.ActionLink("Documents", "FileManage", "Administration")</li>
                 </ul>
             </div>
             <div class="col-md-10">

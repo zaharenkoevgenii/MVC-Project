@@ -1,7 +1,6 @@
 ﻿using System;
-using BLL.Interfacies.Entities;
 
-namespace BLL.Interface.Entities
+namespace BLL.Interfacies.Entities
 {
     public class FileEntity:IEntity
     {

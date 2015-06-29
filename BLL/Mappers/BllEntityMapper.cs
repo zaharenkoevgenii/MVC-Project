@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
-using DAL.Interface.DTO;
 using DAL.Interfacies.DTO;
 
 namespace BLL.Mappers

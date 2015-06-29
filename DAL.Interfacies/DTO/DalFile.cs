@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DAL.Interface.DTO
+namespace DAL.Interfacies.DTO
 {
     public class DalFile : IEntity
     {

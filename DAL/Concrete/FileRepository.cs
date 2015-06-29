@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.IO;
 using System.Linq;
-using DAL.Interface.DTO;
 using DAL.Interface.Repository;
+using DAL.Interfacies.DTO;
 using ORM;
 
 namespace DAL.Concrete
@@ -23,7 +21,7 @@ namespace DAL.Concrete
         {
             var x = _context.Set<Files>().ToList();
             if (n != 0) x = _context.Set<Files>().Take(n).ToList();
-            return x.Select(file => new DalFile()
+            return x.Select(file => new DalFile
             {
                 Id = file.Id,
                 Name = file.Name,

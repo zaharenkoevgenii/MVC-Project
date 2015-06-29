@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DAL.Interface.Repository;
 using DAL.Interfacies.DTO;
 using ORM;
-using DAL.Mappers;
 
 namespace DAL.Concrete
 {

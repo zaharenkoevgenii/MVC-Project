@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BLL.Interface.Entities;
+using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using BLL.Mappers;
-using DAL.Interface.DTO;
 using DAL.Interface.Repository;
+using DAL.Interfacies.DTO;
 
 namespace BLL.Services
 {
@@ -40,7 +40,7 @@ namespace BLL.Services
 
         public UserEntity Search(System.Linq.Expressions.Expression<Func<UserEntity, bool>> f)
         {
-            return _userRepository.Get().Select(user => new UserEntity()
+            return _userRepository.Get().Select(user => new UserEntity
             {
                 Id = user.Id,
                 CreationTime = user.CreationTime,

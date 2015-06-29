@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Profile;
-using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 

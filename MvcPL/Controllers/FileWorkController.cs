@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Filters;
-using MvcPL.Models;
 
 namespace MvcPL.Controllers
 {
@@ -24,23 +21,6 @@ namespace MvcPL.Controllers
             _uservice = uservice;
         }
 
-        public ActionResult Index()
-        {
-            var id = _uservice.Search(u => u.Email == User.Identity.Name).Id;
-            var data = _fservice.Get()
-                .Where(file => file.UserId == id)
-                .OrderBy(f => f.CreationTime)
-                .Select(file => new FileViewModel
-                {
-                    Id = file.Id,
-                    Name = file.Name,
-                    Created = file.CreationTime,
-                    OwnerId = file.UserId,
-                    Private = file.Private,
-                    Rating = file.Rating
-                });
-            return View(data);
-        }
         [HttpPost]
         public ActionResult Upload()
         {
@@ -77,7 +57,7 @@ namespace MvcPL.Controllers
         {
             var username = _uservice.Get().First(u => u.Id == _fservice.Get().First(f => f.Id == id).UserId).Email;
             _fservice.Remove(id);
-            return username == User.Identity.Name ? RedirectToAction("Index", "Profile") : RedirectToAction("Approve", "Administration");
+            return username == User.Identity.Name ? RedirectToAction("Index", "Profile") : RedirectToAction("FileManage", "Administration");
         }
 
         private string FileNameRemake(string fileName)

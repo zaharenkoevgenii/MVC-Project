@@ -1,10 +1,8 @@
 ﻿using System.Data.Entity;
-using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using BLL.Services;
 using DAL.Concrete;
-using DAL.Interface.DTO;
 using DAL.Interface.Repository;
 using DAL.Interfacies.DTO;
 using Ninject.Modules;

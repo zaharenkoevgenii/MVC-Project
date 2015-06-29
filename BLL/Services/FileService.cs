@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using BLL.Mappers;
-using DAL.Interface.DTO;
 using DAL.Interface.Repository;
+using DAL.Interfacies.DTO;
 
 namespace BLL.Services
 {
@@ -18,7 +17,7 @@ namespace BLL.Services
 
         public FileService(IUnitOfWork uow, IRepository<DalFile> repository)
         {
-            this._uow = uow;
+            _uow = uow;
             _fileRepository = repository;
         }
 

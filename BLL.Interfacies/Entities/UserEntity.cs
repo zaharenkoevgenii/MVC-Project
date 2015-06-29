@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BLL.Interfacies.Entities;
 
-namespace BLL.Interface.Entities
+namespace BLL.Interfacies.Entities
 {
     public class UserEntity:IEntity
     {

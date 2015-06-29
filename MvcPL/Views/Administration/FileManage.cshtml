@@ -1,0 +1,57 @@
+﻿@using BLL.Interfacies.Entities
+@using BLL.Interfacies.Services
+@using DependencyResolver
+@using Ninject
+@model IEnumerable<BLL.Interfacies.Entities.FileEntity>
+
+@{
+    ViewBag.Title = "FileManage";
+}
+<style>
+    li {
+        list-style-type: none;
+    }
+
+    ul {
+        margin-left: 0;
+        padding-left: 0;
+    }
+</style>
+<div align="center" class="panel-group">
+    <h2>File Manage Page</h2>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li class="col-md-4">
+                <div class="thumbnail">
+                    @if (!item.ContentType.Contains("audio"))
+                    {
+                        <img src="~/Content/Icons/doc.png" alt="" class=".img-thumbnail" width="64" height="64">
+                    }
+                    else
+                    {
+                        <img src="~/Content/Icons/msc.jpg" alt="" class=".img-thumbnail" width="64" height="64">
+                    }
+                    <h4>@item.Name</h4>
+                    <h4>
+                        @{
+                                  IKernel kernel = new StandardKernel(new RevolverModule());
+                                  var uservice = kernel.Get<IService<UserEntity>>();
+                              }
+                        @uservice.Get().First(u => u.Id == item.UserId).Email
+                    </h4>
+                    <a href="/FileWork/Download/@item.Id" class="btn .btn-sm btn-default"> Download File </a>
+                    @if (Roles.Provider.IsUserInRole(User.Identity.Name, "admin"))
+                    {
+                        if (item.Approved == false)
+                        {
+                            <a href="/Administration/ApproveFile/@item.Id" class="btn .btn-sm btn-default"> Approve </a>
+                        }
+                        <a href="/Filework/Delete/@item.Id" class="btn .btn-sm btn-default"> Delete File </a>
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+
+</div>

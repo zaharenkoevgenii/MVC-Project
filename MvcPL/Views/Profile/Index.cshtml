@@ -1,6 +1,6 @@
 ﻿@using System.Collections
 @using MvcPL.Providers
-@model MvcPL.Models.UserViewModel
+@model BLL.Interfacies.Entities.UserEntity
 @{
     ViewBag.Title = "Index";
 }
@@ -16,11 +16,10 @@
                 <li>@Html.ActionLink("Change profile", "FillProfile", "Profile")</li>
             </ul>
             <br/>
-            <label class="btn .btn-sm btn-block .disabled" style="background: lightgray">Administration Panel</label>
             @if (Roles.Provider.IsUserInRole(User.Identity.Name, "admin"))
             {
+                <label class="btn .btn-sm btn-block .disabled" style="background: lightgray">Administration Panel</label>
                 <a href="/Administration/Approve" class="btn .btn-sm btn-block btn-default">Approve files</a>
-                <a href="/Administration/FileManage" class="btn .btn-sm btn-block btn-default">Manage files</a>
                 <a href="/Administration/UserManage" class="btn .btn-sm btn-block btn-default">Manage users</a> 
             }
         </div>

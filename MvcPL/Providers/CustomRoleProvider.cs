@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
-using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using DependencyResolver;
@@ -20,8 +19,8 @@ namespace MvcPL.Providers
             var uservice = _kernel.Get<IService<UserEntity>>();
             var user = uservice.Get().FirstOrDefault(u => u.Email == email);
             if (user == null) return false;
-            var role = uservice.Get().Select(u => u.Roles.Where(r=>r.Name== roleName)).FirstOrDefault();
-            return role != null;
+            var role = user.Roles.Select(r => r.Name).Contains(roleName);
+            return role;
         }
 
         public override string[] GetRolesForUser(string email)

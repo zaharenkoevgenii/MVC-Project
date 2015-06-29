@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.ModelBinding;
 using System.Web.Mvc;
-using BLL.Interface.Entities;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Filters;
@@ -35,7 +31,7 @@ namespace MvcPL.Controllers
                     LastName = user.Profile.LastName,
                     LastUpdateDate = user.Profile.LastUpdateDate
                 };
-                return View(new UserViewModel
+                return View(new UserEntity
                 {
                     Email = user.Email,
                     Files = user.Files,
@@ -51,7 +47,7 @@ namespace MvcPL.Controllers
                 LastName = "Noname",
                 LastUpdateDate = DateTime.Now
             };
-            return View(new UserViewModel
+            return View(new UserEntity
             {
                 Email = user.Email,
                 Files = user.Files,

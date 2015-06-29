@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BLL.Interfacies.Entities
+﻿namespace BLL.Interfacies.Entities
 {
     public interface IEntity
     {

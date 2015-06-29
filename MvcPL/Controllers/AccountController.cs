@@ -3,7 +3,7 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using BLL.Interface.Entities;
+using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Filters;
 using MvcPL.Infrastructura;
@@ -92,7 +92,7 @@ namespace MvcPL.Controllers
         {
             var username = _uservice.Get().First(u => u.Id == id).Email;
             if (username != User.Identity.Name) _uservice.Remove(id);
-            return RedirectToAction("Index","Administration");
+            return RedirectToAction("UserManage","Administration");
         }
 
         public ActionResult Captcha()
