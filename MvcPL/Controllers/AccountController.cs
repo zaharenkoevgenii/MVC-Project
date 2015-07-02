@@ -17,11 +17,14 @@ namespace MvcPL.Controllers
     public class AccountController : Controller
     {
         private readonly IService<UserEntity> _uservice;
+        private readonly IService<FileEntity> _fservice;
 
-        public AccountController(IService<UserEntity> uservice)
+        public AccountController(IService<UserEntity> uservice, IService<FileEntity> fservice)
         {
             _uservice = uservice;
+            _fservice = fservice;
         }
+
         [HttpGet]
         public ActionResult Login()
         {
@@ -92,6 +95,8 @@ namespace MvcPL.Controllers
         {
             var username = _uservice.Get().First(u => u.Id == id).Email;
             if (username != User.Identity.Name) _uservice.Remove(id);
+            foreach (var part in _fservice.Get().Where(f=>f.UserId==id))
+            { _fservice.Remove(part.Id);}
             return RedirectToAction("UserManage","Administration");
         }
 

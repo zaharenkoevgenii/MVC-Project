@@ -274,6 +274,11 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Administration\UserManage.cshtml" />
     <Content Include="Views\Administration\FileManage.cshtml" />
+    <Content Include="Views\Shared\_FileViewPartial.cshtml" />
+    <Content Include="Views\Administration\ApproveFile.cshtml" />
+    <Content Include="Views\Home\MusicView.cshtml" />
+    <Content Include="Views\Home\DocumentsView.cshtml" />
+    <Content Include="Views\Home\ImageView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />

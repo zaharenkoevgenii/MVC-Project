@@ -20,7 +20,7 @@ namespace MvcPL.Controllers
 
         public ActionResult Approve()
         {
-            return View("FileManage",_fservice.Get().Where(f => f.Approved == false));
+            return View("ApproveFile",_fservice.Get().Where(f => f.Approved == false));
         }
         public ActionResult ApproveFile(int id)
         {

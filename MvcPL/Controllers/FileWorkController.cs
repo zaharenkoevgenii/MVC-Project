@@ -49,6 +49,8 @@ namespace MvcPL.Controllers
         {
             var file = _fservice.Get().FirstOrDefault(f => f.Id == id);
             if (file == null) return RedirectToAction("Index", "Profile");
+            file.Rating++;
+            _fservice.Add(file);
             var rFile = new FileContentResult(file.File, file.ContentType) {FileDownloadName = file.Name};
             return rFile;
         }
