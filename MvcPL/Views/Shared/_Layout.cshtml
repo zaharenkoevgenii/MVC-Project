@@ -11,27 +11,27 @@
 <body>
     <div class="container" style="background: lightgrey">
         <ul class="nav nav-pills">
-            <li>@Html.ActionLink("Main","Index","Home")</li>
+            <li>@Html.ActionLink("Main", "Index", "Home")</li>
             @if (User.Identity.Name == "")
             {
                 <li>@Html.ActionLink("Login", "Login", "Account")</li>
             }
             else
             {
-                <li>@Html.ActionLink(@User.Identity.Name,"index","Profile")</li>
+                <li>@Html.ActionLink(@User.Identity.Name, "index", "Profile")</li>
                 <li>@Html.ActionLink("Logout", "LogOut", "Account")</li>
             }
         </ul>
     </div>
-    <hr/>
+    <hr />
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2" style="background: lightgrey">
                 <ul class="nav nav-pills nav-stacked" id="mytabs">
                     <li class="disabled"><a>CATEGORIES</a></li>
-                    <li>@Html.ActionLink("Top Rated",  "Index", "Home")</li>
-                    <li>@Html.ActionLink("Pictures",  "ImageView", "Home")</li>
-                    <li>@Html.ActionLink("Documents",  "DocumentsView", "Home")</li>
+                    <li>@Html.ActionLink("Top Rated", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Pictures", "ImageView", "Home")</li>
+                    <li>@Html.ActionLink("Documents", "DocumentsView", "Home")</li>
                     <li>@Html.ActionLink("Music", "MusicView", "Home")</li>
                 </ul>
             </div>
@@ -41,9 +41,9 @@
         </div>
     </div>
 
-
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-        <script src="../../js/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-2.1.4.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 </body>
 </html>

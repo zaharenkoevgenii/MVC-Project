@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Filters;
+using PagedList;
 
 namespace MvcPL.Controllers
 {
@@ -18,9 +19,14 @@ namespace MvcPL.Controllers
             _uservice = uservice;
         }
 
-        public ActionResult Approve()
+        public ActionResult Approve(int? page)
         {
-            return View("ApproveFile",_fservice.Get().Where(f => f.Approved == false));
+            var pageNumber = page ?? 1;
+            const int pageSize = 6;
+            var listRecord = _fservice.Get().Where(f => f.Approved == false);
+            if (Request.IsAjaxRequest())
+                return PartialView("ApproveFile",listRecord.ToPagedList(pageNumber, pageSize));
+            return View("ApproveFile", listRecord.ToPagedList(pageNumber, pageSize));
         }
         public ActionResult ApproveFile(int id)
         {
@@ -30,14 +36,24 @@ namespace MvcPL.Controllers
             return RedirectToAction("Approve");
         }
 
-        public ActionResult UserManage()
+        public ActionResult UserManage(int? page)
         {
-            return View(_uservice.Get().Where(u=>!u.Roles.Select(r=>r.Name).Contains("admin")));
+            var pageNumber = page ?? 1;
+            const int pageSize = 6;
+            var listRecord = _uservice.Get().Where(u => !u.Roles.Select(r => r.Name).Contains("admin"));
+            if (Request.IsAjaxRequest())
+                return PartialView("UserManage", listRecord.ToPagedList(pageNumber, pageSize));
+            return View("UserManage", listRecord.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult FileManage(int id)
+        public ActionResult FileManage(int id,int? page)
         {
-            return View(_fservice.Get().Where(f=>f.UserId==id));
+            var pageNumber = page ?? 1;
+            const int pageSize = 6;
+            var listRecord = _fservice.Get().Where(f => f.UserId == id);
+            if (Request.IsAjaxRequest())
+                return PartialView("ApproveFile", listRecord.ToPagedList(pageNumber, pageSize));
+            return View("ApproveFile", listRecord.ToPagedList(pageNumber, pageSize));
         }
     }
 }

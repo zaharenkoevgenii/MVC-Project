@@ -1,8 +1,4 @@
-﻿@using BLL.Interfacies.Entities
-@using BLL.Interfacies.Services
-@using DependencyResolver
-@using Ninject
-@model IEnumerable<BLL.Interfacies.Entities.FileEntity>
+﻿@model PagedList.IPagedList<BLL.Interfacies.Entities.FileEntity>
 <style>
     li {
         list-style-type: none;
@@ -13,34 +9,42 @@
         padding-left: 0;
     }
 </style>
-<ul>
-    @foreach (var item in Model)
-    {
-        <li class="col-md-4">
-            <div class="thumbnail">
-                @if (!item.ContentType.Contains("audio"))
-                {
-                    <img src="~/Content/Icons/doc.png" alt="" class=".img-thumbnail" width="64" height="64">
-                }
-                else
-                {
-                    <img src="~/Content/Icons/msc.jpg" alt="" class=".img-thumbnail" width="64" height="64">
-                }
-                <h4>@item.Name</h4>
-                <h5>@item.Rating</h5>
-                <a href="/FileWork/Download/@item.Id" class="btn .btn-sm btn-default"> Download File </a>
-                @if (Roles.Provider.IsUserInRole(User.Identity.Name, "admin"))
-                {
-                    if (item.Approved == false)
+<div align="center">
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li class="col-md-4">
+                <div class="thumbnail">
+                    @if (item.ContentType.Contains("audio"))
                     {
-                        <a href="/Administration/ApproveFile/@item.Id" class="btn .btn-sm btn-default"> Approve </a>
+                        <img src="~/Content/Icons/msc.jpg" alt="" class=".img-thumbnail" width="64" height="64">
                     }
-                    <a href="/Filework/Delete/@item.Id" class="btn .btn-sm btn-default"> Delete File </a>
-                }
-            </div>
-        </li>
-    }
-</ul>
+                    else if (item.ContentType.Contains("image"))
+                    {
+                        <img src="~/Content/Icons/img.png" alt="" class=".img-thumbnail" width="64" height="64">
+                    }
+                    else
+                    {
+                        <img src="~/Content/Icons/doc.png" alt="" class=".img-thumbnail" width="64" height="64">
+                    }
+                    <h4>@item.Name</h4>
+                    <h5>@item.Rating</h5>
+                    <a href="/FileWork/Download/@item.Id" class="btn .btn-sm btn-default"> Download File </a>
+                    @if (Roles.Provider.IsUserInRole(User.Identity.Name, "admin"))
+                    {
+                        if (item.Approved == false)
+                        {
+                            <a href="/Administration/ApproveFile/@item.Id" class="btn .btn-sm btn-default"> Approve </a>
+                        }
+                        <a href="/Filework/Delete/@item.Id" class="btn .btn-sm btn-default"> Delete File </a>
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+
+
 
 
 

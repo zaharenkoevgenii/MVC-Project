@@ -1,10 +1,15 @@
-﻿@model IEnumerable<BLL.Interfacies.Entities.FileEntity>
-
-@{
-    ViewBag.Title = "ImageView";
-}
-
-<div align="center" class="panel-group">
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<BLL.Interfacies.Entities.FileEntity>
+<div align="center" id="CurrentContent">
     <h2>Images</h2>
     @Html.Partial("_FileViewPartial", Model)
+    <div class="navbar-fixed-bottom">
+        @Html.PagedListPager(Model, page => Url.Action("ImageView", "Home", new { page }),
+        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+            {
+                LinkToPreviousPageFormat = ">",
+                LinkToNextPageFormat = "<",
+            }
+                , new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "CurrentContent" }))
+    </div>
 </div>

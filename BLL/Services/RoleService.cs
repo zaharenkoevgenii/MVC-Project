@@ -36,14 +36,9 @@ namespace BLL.Services
                 _uow.Commit();
             }
 
-
-            public RoleEntity Search(System.Linq.Expressions.Expression<System.Func<RoleEntity, bool>> f)
+            public IEnumerable<RoleEntity> Search(System.Linq.Expressions.Expression<System.Func<RoleEntity, bool>> f)
             {
-                return _roleRepository.Get().Select(role => new RoleEntity
-                {
-                    Id = role.Id,
-                    Name = role.Name
-                }).FirstOrDefault(f);
+                return _roleRepository.Get().Select(role => role.ToBllRole()).Where(f);
             }
         }
 }

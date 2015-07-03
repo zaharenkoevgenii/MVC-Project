@@ -38,15 +38,9 @@ namespace BLL.Services
         }
 
 
-        public UserEntity Search(System.Linq.Expressions.Expression<Func<UserEntity, bool>> f)
+        public IEnumerable<UserEntity> Search(System.Linq.Expressions.Expression<Func<UserEntity, bool>> f)
         {
-            return _userRepository.Get().Select(user => new UserEntity
-            {
-                Id = user.Id,
-                CreationTime = user.CreationTime,
-                Email = user.Email,
-                Password = user.Password,
-            }).FirstOrDefault(f);
+            return _userRepository.Get().Select(user => user.ToBllUser()).Where(f);
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿@model IEnumerable<BLL.Interfacies.Entities.UserEntity>
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<BLL.Interfacies.Entities.UserEntity>
 
-@{
-    ViewBag.Title = "UserManage";
-}
 <style>
     li {
         list-style-type: none;
@@ -20,7 +18,7 @@
         {
             <li class="col-md-4">
                 <div class="thumbnail">
-                        <img src="~/Content/Icons/usr.png" alt="" class=".img-thumbnail" width="64" height="64">
+                    <img src="~/Content/Icons/usr.png" alt="" class=".img-thumbnail" width="64" height="64">
                     <h4>@item.Email</h4>
                     <a href="/Administration/FileManage/@item.Id" class="btn .btn-sm btn-default"> Manage His Files </a>
                     <a href="/Account/Delete/@item.Id" class="btn .btn-sm btn-default"> Delete User </a>
@@ -28,4 +26,13 @@
             </li>
         }
     </ul>
+    <div class="navbar-fixed-bottom">
+        @Html.PagedListPager(Model, page => Url.Action("UserManage", "Administration", new { page }),
+        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+            {
+                LinkToPreviousPageFormat = ">",
+                LinkToNextPageFormat = "<",
+            }
+                , new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "CurrentContent" }))
+    </div>
 </div>

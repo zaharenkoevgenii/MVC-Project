@@ -3,12 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Providers.Entities;
 using System.Web.Security;
 using System.Web.Helpers;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using DependencyResolver;
 using Ninject;
+using ProfileEntity = BLL.Interfacies.Entities.ProfileEntity;
 using RoleEntity = BLL.Interfacies.Entities.RoleEntity;
 
 namespace MvcPL.Providers
@@ -29,6 +31,7 @@ namespace MvcPL.Providers
                     Email = email,
                     Password = Crypto.HashPassword(password),
                     CreationTime = DateTime.Now,
+                    Profile = new ProfileEntity{Age=0,FirstName = "Noname",LastName = "Noname",LastUpdateDate = DateTime.Now},
                     Files = new List<FileEntity>(),
                     Roles = new List<RoleEntity>()
                 };

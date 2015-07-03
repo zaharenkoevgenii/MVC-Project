@@ -22,8 +22,6 @@ namespace MvcPL.Controllers
         public ActionResult Index()
         {
             var user = _uservice.Get().First(u => u.Email == User.Identity.Name);
-            if (user.Profile != null)
-            {
                 user.Profile = new ProfileEntity
                 {
                     Age = user.Profile.Age,
@@ -39,22 +37,6 @@ namespace MvcPL.Controllers
                     Profile = user.Profile,
                     Roles = user.Roles
                 });
-            }
-            user.Profile = new ProfileEntity
-            {
-                Age = 0,
-                FirstName = "Noname",
-                LastName = "Noname",
-                LastUpdateDate = DateTime.Now
-            };
-            return View(new UserEntity
-            {
-                Email = user.Email,
-                Files = user.Files,
-                Id = user.Id,
-                Profile = user.Profile,
-                Roles = user.Roles
-            });
         }
         [HttpGet]
         public ActionResult FillProfile()

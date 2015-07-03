@@ -39,20 +39,9 @@ namespace BLL.Services
         }
 
 
-        public FileEntity Search(Expression<Func<FileEntity, bool>> f)
+        public IEnumerable<FileEntity> Search(Expression<Func<FileEntity, bool>> f)
         {
-            return _fileRepository.Get().Select(file => new FileEntity
-            {
-                Id = file.Id,
-                CreationTime = file.CreationTime,
-                File = file.File,
-                Name = file.Name,
-                Private = file.Private,
-                Rating = file.Rating,
-                UserId = file.UserId,
-                ContentType = file.ContentType,
-                Approved = file.Approved
-            }).FirstOrDefault(f);
+            return _fileRepository.Get().Select(file => file.ToBllFile()).Where(f).ToList();
         }
     }
 }

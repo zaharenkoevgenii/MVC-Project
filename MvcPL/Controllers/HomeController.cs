@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Filters;
-using MvcPL.Models;
+using PagedList;
 
 namespace MvcPL.Controllers
 {
@@ -16,22 +16,60 @@ namespace MvcPL.Controllers
         {
             _service = service;
         }
-
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(int? page)
         {
-            return View(_service.Get().Where(f => !f.Private).OrderByDescending(f => f.Rating));
+            var pageNumber = page ?? 1;
+            const int pageSize = 6;
+            var listRecord = _service
+                .Search(f=>!f.Private)
+                .Where(f => f.Approved)
+                .OrderByDescending(f => f.Rating);
+            if (Request.IsAjaxRequest())
+                return PartialView(listRecord.ToPagedList(pageNumber, pageSize));
+            return View(listRecord.ToPagedList(pageNumber, pageSize));
         }
-        public ActionResult MusicView()
+        public ActionResult MusicView(int? page)
         {
-            return View(_service.Get().Where(f => !f.Private).Where(f => f.ContentType.Contains("audio")).OrderByDescending(f => f.Rating));
+            var pageNumber = page ?? 1;
+            const int pageSize = 6;
+            var listRecord =
+                _service.Get()
+                    .Where(f => !f.Private)
+                    .Where(f=>f.Approved)
+                    .Where(f => f.ContentType.Contains("audio"))
+                    .OrderByDescending(f => f.Rating);
+            if (Request.IsAjaxRequest())
+                return PartialView(listRecord.ToPagedList(pageNumber, pageSize));
+            return View(listRecord.ToPagedList(pageNumber, pageSize));
         }
-        public ActionResult DocumentsView()
+        public ActionResult DocumentsView(int? page)
         {
-            return View(_service.Get().Where(f => !f.Private).Where(f => f.ContentType.Contains("multipart") || f.ContentType.Contains("text") || f.ContentType.Contains("application")).OrderByDescending(f => f.Rating));
+            var pageNumber = page ?? 1;
+            const int pageSize = 6;
+            var listRecord =
+                _service.Get()
+                    .Where(f => !f.Private)
+                    .Where(f => f.Approved)
+                    .Where(f => f.ContentType.Contains("application"))
+                    .OrderByDescending(f => f.Rating);
+            if (Request.IsAjaxRequest())
+                return PartialView(listRecord.ToPagedList(pageNumber, pageSize));
+            return View(listRecord.ToPagedList(pageNumber, pageSize));
         }
-        public ActionResult ImageView()
+        public ActionResult ImageView(int? page)
         {
-            return View(_service.Get().Where(f => !f.Private).Where(f => f.ContentType.Contains("image")).OrderByDescending(f => f.Rating));
+            var pageNumber = page ?? 1;
+            const int pageSize = 6;
+            var listRecord =
+                _service.Get()
+                    .Where(f => !f.Private)
+                    .Where(f => f.Approved)
+                    .Where(f => f.ContentType.Contains("image"))
+                    .OrderByDescending(f => f.Rating);
+            if (Request.IsAjaxRequest())
+                return PartialView(listRecord.ToPagedList(pageNumber, pageSize));
+            return View(listRecord.ToPagedList(pageNumber, pageSize));
         }
     }
 }

@@ -37,17 +37,9 @@ namespace BLL.Services
                 _uow.Commit();
             }
 
-
-            public ProfileEntity Search(System.Linq.Expressions.Expression<Func<ProfileEntity, bool>> f)
+            public IEnumerable<ProfileEntity> Search(System.Linq.Expressions.Expression<Func<ProfileEntity, bool>> f)
             {
-                return _profileRepository.Get().Select(profile => new ProfileEntity
-                {
-                    Id = profile.Id,
-                    Age = profile.Age,
-                    FirstName = profile.FirstName,
-                    LastName = profile.LastName,
-                    LastUpdateDate = profile.LastUpdateDate,
-                }).FirstOrDefault(f);
+                return _profileRepository.Get().Select(profile => profile.ToBllProfile()).Where(f).ToList();
             }
         }
     }

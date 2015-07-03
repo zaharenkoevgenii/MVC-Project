@@ -9,7 +9,7 @@ namespace BLL.Interfacies.Services
     {
         IEnumerable<TEntity> Get(int n = 0);
         void Add(TEntity user);
-        TEntity Search(Expression<Func<TEntity, bool>> f);
+        IEnumerable<TEntity> Search(Expression<Func<TEntity, bool>> f);
         void Remove(int id);
     }
 }
