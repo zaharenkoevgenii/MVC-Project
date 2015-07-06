@@ -1,0 +1,39 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<BLL.Interfacies.Entities.FileEntity>
+<div id ="updatable">
+    <table id="entries" class="table-responsive" width="60%">
+        <tr>
+            <td width="8%"><center><b> File name </b></center></td>
+            <td width="2%"><center><b> Private </b></center></td>
+            <td width="2%"><center><b> Rating </b></center></td>
+            <td width="3%"><center><b> Delete </b></center></td>
+            <td width="3%"><center><b> Download </b></center></td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                @if (item.Approved)
+                {
+                    <td><center>@Html.ActionLink(item.Private.ToString(), "Privacy", "FileWork", new { id = item.Id }, null)</center></td>
+                }
+                else
+                {
+                    <td><center>@item.Private.ToString()</center></td>
+                }
+                <td><center>@Html.DisplayFor(modelItem => item.Rating)</center></td>
+                <td><center>@Html.ActionLink("Delete", "Delete", "Filework", new { id = item.Id }, null)</center></td>
+                <td><center>@Html.ActionLink("Download", "Download", "Filework", new { id = item.Id }, null)</center></td>
+            </tr>
+        }
+    </table>
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("MyFilesManage", "Administration", new { page }),
+            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+            {
+                LinkToPreviousPageFormat = ">",
+                LinkToNextPageFormat = "<",
+            }
+                         , new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "updatable" }))
+    </div>
+</div>
