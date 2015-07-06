@@ -29,17 +29,6 @@ namespace DAL.Concrete
                 LastUpdateDate = profile.LastUpdateDate
             }).AsQueryable();
         }
-        public DalProfile Search(System.Linq.Expressions.Expression<Func<DalProfile, bool>> f)
-        {
-            return _context.Set<Profiles>().Select(profile => new DalProfile
-            {
-                Id = profile.Id,
-                FirstName = profile.FirstName,
-                LastName = profile.LastName,
-                Age = profile.Age,
-                LastUpdateDate = profile.LastUpdateDate,
-            }).FirstOrDefault(f);
-        }
         public void Create(DalProfile entity)
         {
             var profile = new Profiles

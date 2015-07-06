@@ -288,6 +288,7 @@
     <Content Include="Views\Home\MusicView.cshtml" />
     <Content Include="Views\Home\DocumentsView.cshtml" />
     <Content Include="Views\Home\ImageView.cshtml" />
+    <Content Include="Views\Shared\_SimpleFileManage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />

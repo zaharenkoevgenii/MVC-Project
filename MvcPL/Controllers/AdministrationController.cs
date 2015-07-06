@@ -7,6 +7,7 @@ using PagedList;
 
 namespace MvcPL.Controllers
 {
+    [Authorize(Roles = "user")]
     [HandleAllError]
     public class AdministrationController : Controller
     {
@@ -54,6 +55,14 @@ namespace MvcPL.Controllers
             if (Request.IsAjaxRequest())
                 return PartialView("ApproveFile", listRecord.ToPagedList(pageNumber, pageSize));
             return View("ApproveFile", listRecord.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult MyFilesManage(int? page)
+        {
+            var pageNumber = page ?? 1;
+            const int pageSize = 10;
+            var listRecord = _fservice.Get().Where(f => f.UserId == _uservice.Search(u=>u.Email==User.Identity.Name).First().Id);
+            return PartialView("_SimpleFileManage", listRecord.ToPagedList(pageNumber, pageSize));
         }
     }
 }

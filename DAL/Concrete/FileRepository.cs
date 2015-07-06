@@ -35,22 +35,6 @@ namespace DAL.Concrete
             }).AsQueryable();
         }
 
-        public DalFile Search(System.Linq.Expressions.Expression<Func<DalFile, bool>> f)
-        {
-            return _context.Set<Files>().Select(file => new DalFile
-            {
-                Id = file.Id,
-                Name = file.Name,
-                Private = file.Private,
-                CreationTime = file.CreationTime,
-                Rating = file.Rating,
-                UserId = file.UserId,
-                File = file.File,
-                ContentType = file.ContentType,
-                Approved = file.Approved
-            }).FirstOrDefault(f);
-        }
-
         public void Create(DalFile file)
         {
             var f = new Files

@@ -26,14 +26,6 @@ namespace DAL.Concrete
                 Name = role.Name
             }).AsQueryable();
         }
-        public DalRole Search(System.Linq.Expressions.Expression<Func<DalRole, bool>> f)
-        {
-            return _context.Set<Roles>().Select(role => new DalRole
-            {
-                Id = role.Id,
-                Name = role.Name
-            }).FirstOrDefault(f);
-        }
         public void Create(DalRole entity)
         {
             var role = new Roles

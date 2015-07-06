@@ -34,20 +34,6 @@ namespace DAL.Concrete
                         }).AsQueryable();
         }
 
-        public DalUser Search(System.Linq.Expressions.Expression<Func<DalUser, bool>> func)
-        {
-            return _context.Set<Users>().Select(user => new DalUser
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Password = user.Password,
-                CreationTime = user.CreationTime,
-                Files = user.Files.Select(f => f.ToDalFile()).ToList(),
-                Roles = user.Roles.Select(r => r.ToDalRole()).ToList(),
-                Profile = user.Profiles.ToDalProfile()
-            }).FirstOrDefault(func);
-        }
-
         public void Create(DalUser user)
         {
             var u = new Users
